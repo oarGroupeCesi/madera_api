@@ -7,6 +7,9 @@ php:
   - 7.0
   - hhvm
 
+notifications:
+  slack: ril14:1AJJdLrKoybD1jjcOi3Kksct
+
 install:
   - travis_retry composer install --no-interaction --prefer-source
 
