@@ -22,7 +22,7 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-	Route::resource('customer', 'CustomerController');
+Route::group(['middleware' => ['web'], 'prefix' => 'api'], function () {
+	Route::resource('customer', 'Api\CustomerController');
 });
 
