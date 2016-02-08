@@ -8,5 +8,4 @@ machine:
 
 database:
   override:
-    - php artisan migrate --no-interaction
-    - php artisan db:seed --no-interaction
+    - php artisan migrate --no-interaction -vvv
