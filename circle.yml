@@ -8,4 +8,4 @@ machine:
 
 database:
   override:
-    - php artisan migrate --no-interaction -vvv
+    - php artisan migrate --no-interaction --env="testing"
