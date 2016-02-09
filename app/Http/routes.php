@@ -22,7 +22,13 @@
 |
 */
 
-Route::group(['middleware' => ['web'], 'prefix' => 'api'], function () {
-	Route::resource('customer', 'Api\CustomerController');
+Route::group(['middleware' => ['web']], function () {
+
+	Route::group(['prefix' => 'api'], function () {
+		Route::post('login', 'Api\AuthController@authenticate');
+		Route::resource('customer', 'Api\CustomerController');
+	});
+	
 });
+
 

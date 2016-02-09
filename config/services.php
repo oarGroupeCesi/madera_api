@@ -35,4 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'jwt' => [
+        'secret' => env('JWT_SECRET'),
+    ],
+
 ];

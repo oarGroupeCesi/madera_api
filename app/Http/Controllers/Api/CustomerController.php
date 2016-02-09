@@ -15,7 +15,7 @@ class CustomerController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.basic.once');
+        $this->middleware('auth.jwt.once');
     }
 
     /**
