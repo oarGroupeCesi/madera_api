@@ -21,18 +21,18 @@ class AuthController extends Controller
     public function authenticate(Request $request)
     {
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-            return [
-            	"token" => JWT::encode([
-               		"email"=>$request->input('email'),
-                	"pass" => $request->input('password')
-            	],
-            	Config::get('services.jwt.secret'))
-            ];
+            return response()->json([
+                "token" => JWT::encode([
+                    "email"=>$request->input('email'),
+                    "pass" => $request->input('password')
+                ],
+                Config::get('services.jwt.secret'))
+            ]);
         }
         else {
-            return [
+            return response()->json([
                 "message" => "Invalid credentials"
-            ];
+            ], 401);
         }
     }
 
