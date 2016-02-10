@@ -30,7 +30,9 @@ class AuthController extends Controller
             ];
         }
         else {
-            return "hoho !";
+            return [
+                "message" => "Invalid credentials"
+            ];
         }
     }
 
