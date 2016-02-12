@@ -94,6 +94,17 @@ class CustomerController extends Controller
                 ],
             ];
         }
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'unique:customers',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'errors' => $validator->errors()->all()
+            ];
+        }
+
         $customer->update($request->all());
         return $customer;
     }
