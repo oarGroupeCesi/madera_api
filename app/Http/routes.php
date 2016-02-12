@@ -28,6 +28,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::post('login', 'Api\AuthController@authenticate');
 		Route::resource('customer', 'Api\CustomerController');
 		Route::resource('project', 'Api\ProjectController');
+		Route::resource('range', 'Api\RangeController');
 	});
 	
 });
