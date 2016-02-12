@@ -90,6 +90,19 @@ class ProjectController extends Controller
                 ],
             ];
         }
+
+        $validator = Validator::make($request->all(), [
+            'status' => 'in:draft,accepted,pending,refused,command,billing',
+            'quotation_price' => 'integer',
+            'quotation_date' => 'date',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'errors' => $validator->errors()->all()
+            ];
+        }
+
         $project->update($request->all());
         return $project;
     }
