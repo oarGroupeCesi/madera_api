@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Product extends Model
 {
-	/**
+    /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'projects';
+    protected $table = 'products';
 
     /**
      * The attributes that are mass assignable.
@@ -20,10 +20,8 @@ class Project extends Model
      */
     protected $fillable = [
     	'name',
-    	'status',
-    	'quotation_price',
-    	'quotation_date',
-        'customer_id',
+    	'range_id',
+    	'project_id',
     ];
 
     /**
@@ -34,22 +32,21 @@ class Project extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-    	'quotation_date',
     ];
 
     /**
-     * Get the customer that owns the project.
+     * Get the range record associated with the product.
      */
-    public function customer()
+    public function range()
     {
-        return $this->belongsTo('App\Models\Customer');
+        return $this->hasOne('App\Models\Range');
     }
 
     /**
-     * Get the products for the project.
+     * Get the project that owns the product.
      */
-    public function products()
+    public function project()
     {
-        return $this->hasMany('App\Models\Product');
+        return $this->belongsTo('App\Models\Project');
     }
 }

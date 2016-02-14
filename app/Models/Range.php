@@ -36,4 +36,12 @@ class Range extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * Get the product that owns the range.
+     */
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product');
+    }
 }
