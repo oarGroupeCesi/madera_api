@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Customer;
 use Validator;
+use Exception;
 
 class ProjectController extends Controller
 {
@@ -39,12 +41,27 @@ class ProjectController extends Controller
             'status' => 'required|in:draft,accepted,pending,refused,command,billing',
             'quotation_price' => 'integer',
             'quotation_date' => 'date',
+            'customer_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
-            return [
+
+            return response()->json([
                 'errors' => $validator->errors()->all()
-            ];
+            ]);
+
+        }
+
+        try {
+
+            $customer = Customer::findOrFail($request->input('customer_id'));
+
+        } catch (Exception $e) {
+            
+            return response()->json([
+                'errors' => 'The customer does not exist.',
+            ], 404);
+
         }
 
         $project = Project::create($request->all());
@@ -69,6 +86,7 @@ class ProjectController extends Controller
                 ],
             ];
         }
+
         return $project;
     }
 
@@ -95,6 +113,7 @@ class ProjectController extends Controller
             'status' => 'in:draft,accepted,pending,refused,command,billing',
             'quotation_price' => 'integer',
             'quotation_date' => 'date',
+            'customer_id' => 'integer',
         ]);
 
         if ($validator->fails()) {
@@ -103,7 +122,22 @@ class ProjectController extends Controller
             ];
         }
 
+        if ($request->input('customer_id')) {
+            try {
+
+                $customer = Customer::findOrFail($request->input('customer_id'));
+
+            } catch (Exception $e) {
+                
+                return response()->json([
+                    'errors' => 'The customer does not exist.',
+                ], 404);
+
+            }
+        }
+
         $project->update($request->all());
+
         return $project;
     }
 
@@ -125,6 +159,7 @@ class ProjectController extends Controller
             ];
         }
         $project->delete();
+
         return 'Project has been delete';
     }
 }

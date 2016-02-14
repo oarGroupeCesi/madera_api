@@ -23,6 +23,7 @@ class Project extends Model
     	'status',
     	'quotation_price',
     	'quotation_date',
+        'customer_id',
     ];
 
     /**
@@ -35,4 +36,13 @@ class Project extends Model
         'updated_at',
     	'quotation_date',
     ];
+
+    /**
+     * Get the customer that owns the project.
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Models\Customer');
+    }
+
 }

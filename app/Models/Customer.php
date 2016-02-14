@@ -36,4 +36,12 @@ class Customer extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * Get the projects for the customer.
+     */
+    public function projects()
+    {
+        return $this->hasMany('App\Models\Project');
+    }
 }

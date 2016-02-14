@@ -25,6 +25,8 @@ class CreateProjectsTable extends Migration
             ]);
             $table->integer('quotation_price')->nullable();
             $table->timestamp('quotation_date')->nullable();
+            $table->integer('customer_id')->unsigned()->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->timestamps();
         });
     }
