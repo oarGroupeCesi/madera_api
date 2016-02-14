@@ -34,6 +34,7 @@ class CreateRangesTable extends Migration
                 'With closing angle',
                 'With opening angle',
             ]);
+            $table->boolean('template')->default(false);
             $table->timestamps();
         });
     }

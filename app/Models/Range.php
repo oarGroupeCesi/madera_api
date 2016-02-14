@@ -24,6 +24,7 @@ class Range extends Model
     	'insulating',
     	'top',
     	'configuration',
+        'template',
     ];
 
     /**

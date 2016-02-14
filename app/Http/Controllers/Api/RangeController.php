@@ -40,6 +40,7 @@ class RangeController extends Controller
             'insulating' => 'required|in:synthetic,natural,biological',
             'top' => 'required|in:roof tiles,slates,thatch',
             'configuration' => 'required|in:Without angle,With closing angle,With opening angle',
+            'template' => 'required|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -97,6 +98,7 @@ class RangeController extends Controller
             'insulating' => 'in:synthetic,natural,biological',
             'top' => 'in:roof tiles,slates,thatch',
             'configuration' => 'in:Without angle,With closing angle,With opening angle',
+            'template' => 'boolean',
         ]);
 
         if ($validator->fails()) {
