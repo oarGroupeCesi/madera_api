@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\User;
 use Validator;
 use Exception;
+use Auth;
 
 class ProjectController extends Controller
 {
@@ -43,7 +44,6 @@ class ProjectController extends Controller
             'quotation_price' => 'integer',
             'quotation_date' => 'date',
             'customer_id' => 'required|integer',
-            'user_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -66,19 +66,14 @@ class ProjectController extends Controller
 
         }
 
-        try {
-
-            $user = User::findOrFail($request->input('user_id'));
-
-        } catch (Exception $e) {
-            
-            return response()->json([
-                'errors' => 'The user does not exist.',
-            ], 404);
-
-        }
-
-        $project = Project::create($request->all());
+        $project = Project::create([
+            'name' => $request->get('name'),
+            'status' => $request->get('status'),
+            'quotation_price' => $request->get('quotation_price'),
+            'quotation_date' => $request->get('quotation_date'),
+            'customer_id' => $request->get('customer_id'),
+            'user_id' => Auth::user()->id
+        ]);
         
         return $project;
     }
@@ -128,7 +123,6 @@ class ProjectController extends Controller
             'quotation_price' => 'integer',
             'quotation_date' => 'date',
             'customer_id' => 'integer',
-            'user_id' => 'integer',
         ]);
 
         if ($validator->fails()) {
@@ -146,20 +140,6 @@ class ProjectController extends Controller
                 
                 return response()->json([
                     'errors' => 'The customer does not exist.',
-                ], 404);
-
-            }
-        }
-
-        if ($request->input('user_id')) {
-            try {
-
-                $user = User::findOrFail($request->input('user_id'));
-
-            } catch (Exception $e) {
-                
-                return response()->json([
-                    'errors' => 'The user does not exist.',
                 ], 404);
 
             }
