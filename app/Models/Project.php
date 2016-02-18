@@ -24,6 +24,7 @@ class Project extends Model
     	'quotation_price',
     	'quotation_date',
         'customer_id',
+        'user_id',
     ];
 
     /**
@@ -43,6 +44,14 @@ class Project extends Model
     public function customer()
     {
         return $this->belongsTo('App\Models\Customer');
+    }
+
+    /**
+     * Get the user that owns the project.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
 
     /**

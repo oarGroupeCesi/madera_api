@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Customer;
+use App\Models\User;
 use Validator;
 use Exception;
 
@@ -41,7 +42,8 @@ class ProjectController extends Controller
             'status' => 'required|in:draft,accepted,pending,refused,command,billing',
             'quotation_price' => 'integer',
             'quotation_date' => 'date',
-            'customer_id' => 'required|integer'
+            'customer_id' => 'required|integer',
+            'user_id' => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -60,6 +62,18 @@ class ProjectController extends Controller
             
             return response()->json([
                 'errors' => 'The customer does not exist.',
+            ], 404);
+
+        }
+
+        try {
+
+            $user = User::findOrFail($request->input('user_id'));
+
+        } catch (Exception $e) {
+            
+            return response()->json([
+                'errors' => 'The user does not exist.',
             ], 404);
 
         }
@@ -114,6 +128,7 @@ class ProjectController extends Controller
             'quotation_price' => 'integer',
             'quotation_date' => 'date',
             'customer_id' => 'integer',
+            'user_id' => 'integer',
         ]);
 
         if ($validator->fails()) {
@@ -131,6 +146,20 @@ class ProjectController extends Controller
                 
                 return response()->json([
                     'errors' => 'The customer does not exist.',
+                ], 404);
+
+            }
+        }
+
+        if ($request->input('user_id')) {
+            try {
+
+                $user = User::findOrFail($request->input('user_id'));
+
+            } catch (Exception $e) {
+                
+                return response()->json([
+                    'errors' => 'The user does not exist.',
                 ], 404);
 
             }
