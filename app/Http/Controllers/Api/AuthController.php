@@ -23,8 +23,9 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
             return response()->json([
                 "token" => JWT::encode([
-                    "email"=>$request->input('email'),
-                    "pass" => $request->input('password')
+                    "sub"   => Auth::user()->id,
+                    "email" => $request->input('email'),
+                    "pass"  => $request->input('password')
                 ],
                 Config::get('services.jwt.secret'))
             ]);
