@@ -9,13 +9,12 @@ machine:
   services:
     - mysql
 
-  environment:
-    ENVIRONMENT: testing
-    DB_URL: 127.0.0.1
-    DB_NAME: circle_test
-    DB_USER: ubuntu
+dependencies:
+  pre:
+    - php -r "copy('.env.example', '.env');"
+    - php artisan key:generate
 
 database:
 
   override:
-    - php artisan migrate --env=$ENVIRONMENT
+    - php artisan migrate --env=testing
