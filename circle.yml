@@ -8,4 +8,4 @@ machine:
 
 database:
   override:
-    - php artisan migrate --no-interaction --force
+    - php artisan migrate --no-interaction --force --database=circle_test
