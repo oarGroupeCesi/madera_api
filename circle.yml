@@ -10,7 +10,7 @@ machine:
     - mysql
 
 dependencies:
-  pre:
+  post:
     - php -r "copy('.env.example', '.env');"
     - php artisan key:generate
 
