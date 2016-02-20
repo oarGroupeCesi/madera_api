@@ -1,43 +1,10 @@
-# machine:
-
-#   timezone:
-#     Europe/Paris
-
-#   php:
-#     version: 5.6.14
-
-#   services:
-#     - mysql
-
-# dependencies:
-#   post:
-#     - php -r "copy('.env.example', '.env');"
-#     - php artisan key:generate
-
-# database:
-
-#   override:
-#     - php artisan migrate --env=testing
 machine:
+
+  timezone:
+    Europe/Paris
+
   php:
-    version: 5.6.5
+    version: 5.6.14
 
-  environment:
-    DB_URL: 127.0.0.1
-    DB_NAME: circle_test
-    DB_USER: ubuntu
-
-dependencies:
-  pre:
-    - echo "export DB_URL=$DB_URL" >> /etc/apache2/envvars
-    - echo "export DB_NAME=$DB_NAME" >> /etc/apache2/envvars
-    - echo "export DB_USER=$DB_USER" >> /etc/apache2/envvars
-    - ls /etc/php5/apache2/
-    - sudo sh -c 'echo "extension=php_sockets.dll" >> /etc/php5/apache2/php.ini'
-  post:
-    - php artisan key:generate
-    - php artisan migrate --env=$ENVIRONMENT
-    - php artisan db:seed --env=$ENVIRONMENT
-    - sudo find storage -type d -exec chmod 755 {} \; && sudo find storage -type f -exec chmod 777 {} \;
-    - sudo a2enmod rewrite
-    - sudo service apache2 restart
+  services:
+    - mysql
