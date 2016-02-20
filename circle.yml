@@ -6,6 +6,6 @@ machine:
   services:
     - mysql
 
-# database:
-#   override:
-#     - php artisan migrate --no-interaction --env="testing"
+database:
+  override:
+    - php artisan migrate --no-interaction --force
