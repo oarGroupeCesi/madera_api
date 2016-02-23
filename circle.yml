@@ -21,5 +21,4 @@ dependencies:
 
 database:
   override:
-    - php artisan migrate --force --env=production --no-interaction -vvv
-    - php artisan db:seed --force --env=production --no-interaction -vvv
+    - php artisan migrate --seed --force --env=production --no-interaction -vvv
