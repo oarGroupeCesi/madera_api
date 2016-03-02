@@ -47,9 +47,7 @@ class ProductController extends Controller
 
         if ($validator->fails()) {
 
-            return response()->json([
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json($validator->errors()->all(), 400);
 
         }
 
@@ -59,9 +57,7 @@ class ProductController extends Controller
 
         } catch (Exception $e) {
             
-            return response()->json([
-                'errors' => 'The range does not exist.',
-            ], 404);
+            return response()->json('The range does not exist.', 404);
 
         }
 
@@ -71,9 +67,7 @@ class ProductController extends Controller
 
         } catch (Exception $e) {
             
-            return response()->json([
-                'errors' => 'The project does not exist.',
-            ], 404);
+            return response()->json('The project does not exist.', 404);
 
         }
 
@@ -93,11 +87,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json([
-                'errors' => [
-                    'Product does not exist.',
-                ],
-            ], 404);
+            return response()->json('Product does not exist.', 404);
         }
 
         return $product;
@@ -115,11 +105,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json([
-                'errors' => [
-                    'Product does not exist.',
-                ],
-            ], 404);
+            return response()->json('Product does not exist.', 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -128,9 +114,7 @@ class ProductController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json($validator->errors()->all(), 400);
         }
 
         if ($request->input('range_id')) {
@@ -140,9 +124,7 @@ class ProductController extends Controller
 
             } catch (Exception $e) {
                 
-                return response()->json([
-                    'errors' => 'The range does not exist.',
-                ], 404);
+                return response()->json('The range does not exist.', 404);
 
             }
         }
@@ -154,9 +136,7 @@ class ProductController extends Controller
 
             } catch (Exception $e) {
                 
-                return response()->json([
-                    'errors' => 'The project does not exist.',
-                ], 404);
+                return response()->json('The project does not exist.', 404);
 
             }
         }
@@ -177,11 +157,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json([
-                'errors' => [
-                    'Product does not exist.',
-                ],
-            ], 404);
+            return response()->json('Product does not exist.', 404);
         }
         $product->delete();
 

@@ -48,9 +48,7 @@ class ProjectController extends Controller
 
         if ($validator->fails()) {
 
-            return response()->json([
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json($validator->errors()->all(), 400);
 
         }
 
@@ -60,9 +58,7 @@ class ProjectController extends Controller
 
         } catch (Exception $e) {
             
-            return response()->json([
-                'errors' => 'The customer does not exist.',
-            ], 404);
+            return response()->json('The customer does not exist.', 404);
 
         }
 
@@ -89,11 +85,7 @@ class ProjectController extends Controller
         $project = Project::find($id);
 
         if (!$project) {
-            return response()->json([
-                'errors' => [
-                    'Project does not exist.',
-                ],
-            ], 404);
+            return response()->json('Project does not exist.', 404);
         }
 
         return $project;
@@ -111,11 +103,7 @@ class ProjectController extends Controller
         $project = Project::find($id);
 
         if (!$project) {
-            return response()->json([
-                'errors' => [
-                    'Project does not exist.',
-                ],
-            ], 404);
+            return response()->json('Project does not exist.', 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -126,9 +114,7 @@ class ProjectController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()->all()
-            ], 400);
+            return response()->json($validator->errors()->all(), 400);
         }
 
         if ($request->input('customer_id')) {
@@ -138,9 +124,7 @@ class ProjectController extends Controller
 
             } catch (Exception $e) {
                 
-                return response()->json([
-                    'errors' => 'The customer does not exist.',
-                ], 404);
+                return response()->json('The customer does not exist.', 404);
 
             }
         }
@@ -161,11 +145,7 @@ class ProjectController extends Controller
         $project = Project::find($id);
 
         if (!$project) {
-            return response()->json([
-                'errors' => [
-                    'Project does not exist.',
-                ],
-            ], 404);
+            return response()->json('Project does not exist.', 404);
         }
         $project->delete();
 
