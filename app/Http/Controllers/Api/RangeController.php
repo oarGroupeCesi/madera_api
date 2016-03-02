@@ -44,9 +44,9 @@ class RangeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return [
+            return response()->json([
                 'errors' => $validator->errors()->all()
-            ];
+            ], 400);
         }
 
         $range = Range::create($request->all());
@@ -65,11 +65,11 @@ class RangeController extends Controller
         $range = Range::find($id);
 
         if (!$range) {
-            return [
+            return response()->json([
                 'errors' => [
                     'Range does not exist.',
                 ],
-            ];
+            ], 404);
         }
         return $range;
     }
@@ -86,11 +86,11 @@ class RangeController extends Controller
         $range = Range::find($id);
 
         if (!$range) {
-            return [
+            return response()->json([
                 'errors' => [
                     'Range does not exist.',
                 ],
-            ];
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -102,9 +102,9 @@ class RangeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return [
+            return response()->json([
                 'errors' => $validator->errors()->all()
-            ];
+            ], 400);
         }
 
         $range->update($request->all());
@@ -122,11 +122,11 @@ class RangeController extends Controller
         $range = Range::find($id);
 
         if (!$range) {
-            return [
+            return response()->json([
                 'errors' => [
                     'Range does not exist.',
                 ],
-            ];
+            ], 404);
         }
         $range->delete();
         return 'Range has been delete';

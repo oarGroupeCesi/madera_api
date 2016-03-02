@@ -46,9 +46,9 @@ class CustomerController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return [
+            return response()->json([
                 'errors' => $validator->errors()->all()
-            ];
+            ], 400);
         }
 
         $customer = Customer::create($request->all());
@@ -67,11 +67,11 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return [
+            return response()->json([
                 'errors' => [
                     'User does not exist.',
                 ],
-            ];
+            ], 404);
         }
         return $customer;
     }
@@ -88,11 +88,11 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return [
+            return response()->json([
                 'errors' => [
                     'User does not exist.',
                 ],
-            ];
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -100,9 +100,9 @@ class CustomerController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return [
+            return response()->json([
                 'errors' => $validator->errors()->all()
-            ];
+            ], 400);
         }
 
         $customer->update($request->all());
@@ -120,11 +120,11 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return [
+            return response()->json([
                 'errors' => [
                     'User does not exist.',
                 ],
-            ];
+            ], 404);
         }
         $customer->delete();
         return 'User has been delete';

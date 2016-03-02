@@ -50,7 +50,7 @@ class ProjectController extends Controller
 
             return response()->json([
                 'errors' => $validator->errors()->all()
-            ]);
+            ], 400);
 
         }
 
@@ -89,11 +89,11 @@ class ProjectController extends Controller
         $project = Project::find($id);
 
         if (!$project) {
-            return [
+            return response()->json([
                 'errors' => [
                     'Project does not exist.',
                 ],
-            ];
+            ], 404);
         }
 
         return $project;
@@ -111,11 +111,11 @@ class ProjectController extends Controller
         $project = Project::find($id);
 
         if (!$project) {
-            return [
+            return response()->json([
                 'errors' => [
                     'Project does not exist.',
                 ],
-            ];
+            ], 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -126,9 +126,9 @@ class ProjectController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return [
+            return response()->json([
                 'errors' => $validator->errors()->all()
-            ];
+            ], 400);
         }
 
         if ($request->input('customer_id')) {
@@ -161,11 +161,11 @@ class ProjectController extends Controller
         $project = Project::find($id);
 
         if (!$project) {
-            return [
+            return response()->json([
                 'errors' => [
                     'Project does not exist.',
                 ],
-            ];
+            ], 404);
         }
         $project->delete();
 
