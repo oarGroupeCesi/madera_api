@@ -63,7 +63,7 @@ class RangeController extends Controller
         $range = Range::find($id);
 
         if (!$range) {
-            return response()->json('Range does not exist.', 404);
+            return response()->json('La gamme n\'existe pas.', 404);
         }
         return $range;
     }
@@ -80,7 +80,7 @@ class RangeController extends Controller
         $range = Range::find($id);
 
         if (!$range) {
-            return response()->json('Range does not exist.', 404);
+            return response()->json('La gamme n\'existe pas.', 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -110,9 +110,9 @@ class RangeController extends Controller
         $range = Range::find($id);
 
         if (!$range) {
-            return response()->json('Range does not exist.', 404);
+            return response()->json('La gamme n\'existe pas.', 404);
         }
         $range->delete();
-        return 'Range has been delete';
+        return 'La gamme a bien été supprimée.';
     }
 }

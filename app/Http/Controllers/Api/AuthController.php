@@ -32,7 +32,7 @@ class AuthController extends Controller
         }
         else {
             return response()->json([
-                "message" => "Invalid credentials"
+                "message" => "Identifiants invalides"
             ], 401);
         }
     }

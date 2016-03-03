@@ -57,7 +57,7 @@ class ProductController extends Controller
 
         } catch (Exception $e) {
             
-            return response()->json('The range does not exist.', 404);
+            return response()->json('La gamme n\'existe pas.', 404);
 
         }
 
@@ -67,7 +67,7 @@ class ProductController extends Controller
 
         } catch (Exception $e) {
             
-            return response()->json('The project does not exist.', 404);
+            return response()->json('Le projet n\'existe pas.', 404);
 
         }
 
@@ -87,7 +87,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json('Product does not exist.', 404);
+            return response()->json('Le produit n\'existe pas.', 404);
         }
 
         return $product;
@@ -105,7 +105,7 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json('Product does not exist.', 404);
+            return response()->json('Le produit n\'existe pas.', 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -124,7 +124,7 @@ class ProductController extends Controller
 
             } catch (Exception $e) {
                 
-                return response()->json('The range does not exist.', 404);
+                return response()->json('La gamme n\'existe pas.', 404);
 
             }
         }
@@ -136,7 +136,7 @@ class ProductController extends Controller
 
             } catch (Exception $e) {
                 
-                return response()->json('The project does not exist.', 404);
+                return response()->json('Le projet n\'existe pas.', 404);
 
             }
         }
@@ -157,10 +157,10 @@ class ProductController extends Controller
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json('Product does not exist.', 404);
+            return response()->json('Le produit n\'existe pas.', 404);
         }
         $product->delete();
 
-        return 'Product has been delete';
+        return 'Le produit a bien été supprimé.';
     }
 }

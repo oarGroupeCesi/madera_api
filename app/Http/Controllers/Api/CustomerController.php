@@ -65,7 +65,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return response()->json('User does not exist.', 404);
+            return response()->json('Le client n\'existe pas.', 404);
         }
         return $customer;
     }
@@ -82,7 +82,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return response()->json('User does not exist.', 404);
+            return response()->json('Le client n\'existe pas.', 404);
         }
 
         $validator = Validator::make($request->all(), [
@@ -108,9 +108,9 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return response()->json('User does not exist.', 404);
+            return response()->json('Le client n\'existe pas.', 404);
         }
         $customer->delete();
-        return 'User has been delete';
+        return 'Le client a bien été supprimé.';
     }
 }
