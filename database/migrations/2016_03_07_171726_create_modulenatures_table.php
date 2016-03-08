@@ -16,6 +16,7 @@ class CreateModulenaturesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('unity');
+            $table->integer('price');
             $table->timestamps();
         });
     }
