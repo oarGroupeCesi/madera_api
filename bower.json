@@ -1,0 +1,6 @@
+{
+  "name": "madera_api",
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}

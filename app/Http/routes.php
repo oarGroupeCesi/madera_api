@@ -33,6 +33,17 @@ Route::group(['middleware' => ['web']], function () {
 		Route::resource('module', 'Api\ModuleController');
 		Route::resource('modulenature', 'Api\ModulenatureController');
 	});
+
+	Route::group(['prefix' => 'docs'], function () {
+		Route::get('/', 'Docs\StaticPages@home');
+		Route::get('auth', 'Docs\StaticPages@auth');
+		Route::get('clients', 'Docs\StaticPages@customers');
+		Route::get('projets', 'Docs\StaticPages@projects');
+		Route::get('gammes', 'Docs\StaticPages@ranges');
+		Route::get('produits', 'Docs\StaticPages@products');
+		Route::get('natures-module', 'Docs\StaticPages@naturesModule');
+		Route::get('modules', 'Docs\StaticPages@modules');
+	});
 	
 });
 
