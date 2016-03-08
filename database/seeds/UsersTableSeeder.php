@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,9 +13,11 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => 'Administrator',
-            'email' => 'administrator@madera.local',
+            'name' => 'Administrateur',
+            'email' => 'administrateur@madera.local',
             'password' => bcrypt('admin'),
+            'created_at' => Carbon::now(Config::get('app.timezone')),
+            'updated_at' => Carbon::now(Config::get('app.timezone')),
         ]);
     }
 }
