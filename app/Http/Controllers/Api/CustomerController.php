@@ -86,7 +86,7 @@ class CustomerController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'email' => 'unique:customers',
+            'email' => 'email|unique:customers',
         ]);
 
         if ($validator->fails()) {
