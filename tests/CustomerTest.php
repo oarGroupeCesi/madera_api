@@ -31,7 +31,7 @@ class CustomerTest extends TestCase
     	$response = $this->call('POST', '/api/customer', [
     		'lastname' 	  => 'Richard',
     		'firstname'   => 'Romain',
-    		'email' 	  => 'romain.19@gmail.com',
+    		'email' 	  => 'test@test.com',
     		'adr_street'  => '16 rue dulong',
     		'adr_zipcode' => '76000',
     		'adr_city'    => 'Rouen',
