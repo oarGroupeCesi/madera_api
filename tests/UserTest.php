@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class UserTest extends TestCase
 {
 
-    // use WithoutMiddleware;
+    use WithoutMiddleware;
 
     /**
      * A basic test example.
