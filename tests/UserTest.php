@@ -12,10 +12,10 @@ class UserTest extends TestCase
      *
      * @return void
      */
-    public function testAuthentication()
-    {
-    	$response = $this->call('POST', '/api/auth/login', ['email' => 'administrateur@madera.local', 'password' => 'admin']);
+    // public function testAuthentication()
+    // {
+    // 	$response = $this->call('POST', '/api/auth/login', ['email' => 'administrateur@madera.local', 'password' => 'admin']);
 
-    	$this->assertEquals(200, $response->status());
-    }
+    // 	$this->assertEquals(200, $response->status());
+    // }
 }
