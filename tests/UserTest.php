@@ -10,7 +10,7 @@ class UserTest extends TestCase
     use WithoutMiddleware;
 
     /**
-     * A basic test example.
+     * Test for user authentication.
      *
      * @return void
      */
