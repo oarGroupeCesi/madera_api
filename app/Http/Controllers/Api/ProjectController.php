@@ -28,7 +28,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Project::all();
+        return Project::orderBy('created_at', 'desc')->limit(6)->get();
     }
 
     /**
