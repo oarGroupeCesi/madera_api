@@ -20,6 +20,7 @@ class ProjectController extends Controller
     {
         $this->middleware('auth.jwt.once');
     }
+    
     /**
      * Display a listing of the resource.
      *

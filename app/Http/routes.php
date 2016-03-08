@@ -30,6 +30,8 @@ Route::group(['middleware' => ['web']], function () {
 		Route::resource('project', 'Api\ProjectController');
 		Route::resource('range', 'Api\RangeController');
 		Route::resource('product', 'Api\ProductController');
+		Route::resource('module', 'Api\ModuleController');
+		Route::resource('modulenature', 'Api\ModulenatureController');
 	});
 	
 });
