@@ -105,6 +105,14 @@ return [
             'required' => 'Le nom est requis.',
             'max'      => 'Le nom est trop long (max :max caractères).'
         ],
+        'lastname' => [
+            'required' => 'Le nom est requis.',
+            'max'      => 'Le nom est trop long (max :max caractères).'
+        ],
+        'firstname' => [
+            'required' => 'Le prénom est requis.',
+            'max'      => 'Le prénom est trop long (max :max caractères).'
+        ],
         'phone' => [
             'max'   => 'Le numéro de téléphone est trop long (max :max caractères).',
             'regex' => 'Le numéro de téléphone est invalide.',
@@ -125,6 +133,65 @@ return [
             'required' => 'La ville est requise.',
             'max'      => 'Le nom de la ville est trop long (max :max caractères).',
         ],
+        'height' => [
+            'required' => 'La hauteur est requise.',
+            'integer'  => 'La hauteur doit être un entier',
+        ],
+        'width' => [
+            'required' => 'La longueur est requise.',
+            'integer'  => 'La longueur doit être un entier',
+        ],
+        'quantity' => [
+            'required' => 'La quantité est requise.',
+            'integer'  => 'La quantité doit être un entier',
+        ],
+        'modulenature_id' => [
+            'required' => 'L\'id de la nature du module est requis.',
+            'integer'  => 'L\'id de la nature du module doit être un entier',
+        ],
+        'project_id' => [
+            'required' => 'L\'id du projet est requis.',
+            'integer'  => 'L\'id du projet doit être un entier',
+        ],
+        'range_id' => [
+            'required' => 'L\'id de la gamme est requis.',
+            'integer'  => 'L\'id de la gamme doit être un entier',
+        ],
+        'customer_id' => [
+            'required' => 'L\'id du client est requis.',
+            'integer'  => 'L\'id du client doit être un entier',
+        ],
+        'status' => [
+            'required' => 'Le statut est requis.',
+            'in'  => 'Le statut ne peut être qu\'une de ces valeurs : :in',
+        ],
+        'quotation_price' => [
+            'integer'  => 'Le prix du devis doit être un entier',
+        ],
+        'quotation_date' => [
+            'date'  => 'La date du devis doit être au format date',
+        ],
+        'exterior_finish' => [
+            'required' => 'La finition extérieure est requise.',
+            'in'  => 'La finition extérieure ne peut être qu\'une de ces valeurs : :in',
+        ],
+        'insulating' => [
+            'required' => 'L\'isolation est requise.',
+            'in'  => 'L\'isolation ne peut être qu\'une de ces valeurs : :in',
+        ],
+        'top' => [
+            'required' => 'La couveture est requise.',
+            'in'  => 'La couveture ne peut être qu\'une de ces valeurs : :in',
+        ],
+        'configuration' => [
+            'required' => 'La configuration est requise.',
+            'in'  => 'La configuration ne peut être qu\'une de ces valeurs : :in',
+        ],
+        'template' => [
+            'required' => 'Le modèle est requise.',
+            'boolean'  => 'Le modèle doit être un booléen',
+        ],
+
     ],
 
     /*
