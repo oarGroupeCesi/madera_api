@@ -22,7 +22,29 @@
 |
 */
 
-Route::group(['middleware' => ['web'], 'prefix' => 'api'], function () {
-	Route::resource('customer', 'Api\CustomerController');
+Route::group(['middleware' => ['web']], function () {
+
+	Route::group(['prefix' => 'api', 'middleware' => ['cors']], function () {
+		Route::post('auth/login', 'Api\AuthController@authenticate');
+		Route::resource('customer', 'Api\CustomerController');
+		Route::resource('project', 'Api\ProjectController');
+		Route::resource('range', 'Api\RangeController');
+		Route::resource('product', 'Api\ProductController');
+		Route::resource('module', 'Api\ModuleController');
+		Route::resource('modulenature', 'Api\ModulenatureController');
+	});
+
+	Route::group(['prefix' => 'docs'], function () {
+		Route::get('/', 'Docs\StaticPages@home');
+		Route::get('auth', 'Docs\StaticPages@auth');
+		Route::get('clients', 'Docs\StaticPages@customers');
+		Route::get('projets', 'Docs\StaticPages@projects');
+		Route::get('gammes', 'Docs\StaticPages@ranges');
+		Route::get('produits', 'Docs\StaticPages@products');
+		Route::get('natures-module', 'Docs\StaticPages@naturesModule');
+		Route::get('modules', 'Docs\StaticPages@modules');
+	});
+	
 });
+
 

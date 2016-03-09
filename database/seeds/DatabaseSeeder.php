@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(UsersTableSeeder::class);
+        $this->call(RangesTableSeeder::class);
+        $this->call(ComponentnaturesTableSeeder::class);
+        $this->call(ComponentsTableSeeder::class);
+        $this->call(ModulenaturesTableSeeder::class);
+        $this->call(ComponentModulenatureTableSeeder::class);
 
         Model::reguard();
     }

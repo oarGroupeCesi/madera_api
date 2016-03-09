@@ -15,7 +15,7 @@ class CustomerController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.basic.once');
+        $this->middleware('auth.jwt.once');
     }
 
     /**
@@ -39,16 +39,14 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), [
             'lastname' => 'required',
             'firstname' => 'required',
-            'email' => 'required|unique:customers',
+            'email' => 'required|email|unique:customers',
             'adr_street' => 'required',
             'adr_zipcode' => 'required',
             'adr_city' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return [
-                'errors' => $validator->errors()->all()
-            ];
+            return response()->json($validator->errors()->all(), 400);
         }
 
         $customer = Customer::create($request->all());
@@ -67,11 +65,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return [
-                'errors' => [
-                    'User does not exist.',
-                ],
-            ];
+            return response()->json('Le client n\'existe pas.', 404);
         }
         return $customer;
     }
@@ -88,12 +82,17 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return [
-                'errors' => [
-                    'User does not exist.',
-                ],
-            ];
+            return response()->json('Le client n\'existe pas.', 404);
         }
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'email|unique:customers',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->all(), 400);
+        }
+
         $customer->update($request->all());
         return $customer;
     }
@@ -109,13 +108,9 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
 
         if (!$customer) {
-            return [
-                'errors' => [
-                    'User does not exist.',
-                ],
-            ];
+            return response()->json('Le client n\'existe pas.', 404);
         }
         $customer->delete();
-        return 'User has been delete';
+        return 'Le client a bien été supprimé.';
     }
 }

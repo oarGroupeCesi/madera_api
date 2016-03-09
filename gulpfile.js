@@ -11,6 +11,19 @@ var elixir = require('laravel-elixir');
  |
  */
 
+elixir.config.sourcemaps = false;
+
 elixir(function(mix) {
-    mix.sass('app.scss');
+    mix
+    	.sass('main.scss')
+    	.copy('vendor/bower_components/jquery/dist/jquery.min.js', 'public/js/jquery.min.js')
+    	.copy('vendor/bower_components/bootstrap/dist/js/bootstrap.min.js', 'public/js/bootstrap.min.js')
+    	.version([
+    		'css/main.css',
+    		'js/jquery.min.js',
+    		'js/bootstrap.min.js',
+    	])
+    	.browserSync({
+            proxy: 'madera.local:8000'
+        });
 });
