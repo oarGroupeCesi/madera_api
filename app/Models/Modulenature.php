@@ -21,6 +21,7 @@ class Modulenature extends Model
     protected $fillable = [
     	'name',
     	'unity',
+        'price'
     ];
 
     /**
