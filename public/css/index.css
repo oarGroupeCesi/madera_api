@@ -7,7 +7,7 @@
     -webkit-user-select: none;  /* Chrome all / Safari all */
     -moz-user-select: none;     /* Firefox all */
     -ms-user-select: none;      /* IE 10+ */
-    user-select: none;          /* Likely future */ 
+    user-select: none;          /* Likely future */
 }
 html {
     font-size: 16px;
@@ -56,7 +56,7 @@ p.bg-info {
     border-color: #03A678;
 }
 
-.btn-custom-light:hover, 
+.btn-custom-light:hover,
 .btn-custom-light:focus {
     color: #fff;
     background-color: #03A678;
@@ -68,14 +68,14 @@ p.bg-info {
     color: #fff;
 }
 
-.btn-custom-dark:hover, 
+.btn-custom-dark:hover,
 .btn-custom-dark:focus {
     color: #fff;
     background-color: #1C1C25;
 }
 
-.input-group-lg>.form-control, 
-.input-group-lg>.input-group-addon, 
+.input-group-lg>.form-control,
+.input-group-lg>.input-group-addon,
 .input-group-lg>.input-group-btn>.btn {
     border-radius: 2px;
 }
@@ -112,6 +112,34 @@ p.bg-info {
 .badge.badge-default {
     color: #333;
     background-color: #fff;
+}
+
+.padding-small {
+    padding: 5px;
+}
+
+.padding {
+    padding: 15px;
+}
+
+.padding-large {
+    padding: 30px;
+}
+
+.margin-small {
+    margin: 5px;
+}
+
+.margin {
+    margin: 15px;
+}
+
+.margin-large {
+    margin: 30px;
+}
+
+.small-size {
+    font-size: 14px;
 }
 
 /**

@@ -20,7 +20,7 @@ class ProjectController extends Controller
     {
         $this->middleware('auth.jwt.once');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +58,7 @@ class ProjectController extends Controller
             $customer = Customer::findOrFail($request->input('customer_id'));
 
         } catch (Exception $e) {
-            
+
             return response()->json('Le client n\'existe pas.', 404);
 
         }
@@ -71,7 +71,7 @@ class ProjectController extends Controller
             'customer_id' => $request->get('customer_id'),
             'user_id' => Auth::user()->id
         ]);
-        
+
         return $project;
     }
 
@@ -83,7 +83,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::find($id);
+        $project = Project::with('products')->where('id', $id)->first();
 
         if (!$project) {
             return response()->json('Le projet n\'existe pas.', 404);
@@ -124,7 +124,7 @@ class ProjectController extends Controller
                 $customer = Customer::findOrFail($request->input('customer_id'));
 
             } catch (Exception $e) {
-                
+
                 return response()->json('Le client n\'existe pas.', 404);
 
             }

@@ -19,22 +19,29 @@
         "views/projects/projectWrapperLayoutView",
         "views/projects/createProjectView",
         "views/projects/headerProjectView",
+        "views/projects/displayProjectView",
         "views/projects/footerProjectView",
         "views/projects/previewProjectView",
         "views/products/createProductView",
         "views/modules/createModuleView"],
-    function (Backbone, Radio, Marionette, $, 
-            RangeModel, ProjectModel, 
-            RangesCollection, ModulesCollection, ModulesNaturesCollection, CustomersCollection, ProductsCollection, ProjectsCollection, 
-            ProjectsObject, CustomersObject, ProductsObject, RangesObject, ModulesObject, ModulesNaturesObject, 
-            ProjectWrapperLayoutView, CreateProjectView, HeaderProjectView, FooterProjectView, PreviewProjectView, CreateProductView, CreateModuleView) {
+    function (Backbone, Radio, Marionette, $,
+            RangeModel, ProjectModel,
+            RangesCollection, ModulesCollection, ModulesNaturesCollection, CustomersCollection, ProductsCollection, ProjectsCollection,
+            ProjectsObject, CustomersObject, ProductsObject, RangesObject, ModulesObject, ModulesNaturesObject,
+            ProjectWrapperLayoutView, CreateProjectView, HeaderProjectView, DisplayProjectView,
+            FooterProjectView, PreviewProjectView, CreateProductView, CreateModuleView) {
         "use strict";
 
         var ProjectsController = Marionette.Controller.extend({
-            
+
+            initialize : function () {
+                this.projectsObject = new ProjectsObject();
+                this.channel = Radio.channel('Projects');
+            },
+
             addProject : function () {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'creationProjet']);
-            
+
                 this.initProject({
                     step : "step1"
                 });
@@ -42,17 +49,24 @@
 
             viewProject : function (projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'vueProjet']);
-            
-                this.projectId = projectId;
 
-                App.views.viewProjectView = new ViewProjectView();
-                App.views.appLayoutView.getRegion('content').show(App.views.viewProjectView);
+                var that = this;
+
+                this.channel.request("getProject", projectId)
+                    .then(function(projectModel) {
+                        App.views.viewProjectView = new DisplayProjectView({
+                            'model' : new ProjectModel(projectModel)
+                        });
+                        App.views.appLayoutView.getRegion('content').show(App.views.viewProjectView);
+                    }, function() {
+                        that.redirectToHome();
+                    });
             },
 
 
             addProductsToProject : function (projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'creationProduits']);
-            
+
                 this.projectId = projectId;
 
                 this.initProject({
@@ -62,7 +76,7 @@
 
             addModulesToProject : function (projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'creationModules']);
-            
+
                 this.projectId = projectId;
 
                 this.initProject({
@@ -72,7 +86,7 @@
 
             previewCustomerProject : function(projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'apercuProjetFini']);
-            
+
                 this.projectId = projectId;
 
                 this.initProject({
@@ -82,14 +96,19 @@
 
             initLayoutAndInitObject : function() {
                 App.views.projectWrapperLayoutView = new ProjectWrapperLayoutView();
-                App.views.appLayoutView.getRegion('content').show(App.views.projectWrapperLayoutView);
+                if(App.views.projectWrapperLayoutView) {
+                    App.views.appLayoutView.getRegion('content').show(App.views.projectWrapperLayoutView);
+                }
 
-                this.projectsObject = new ProjectsObject();
                 this.customersObject = new CustomersObject();
                 this.productsObject = new ProductsObject();
                 this.rangesObject = new RangesObject();
                 this.modulesObject = new ModulesObject();
                 this.modulesNaturesObject = new ModulesNaturesObject();
+            },
+
+            redirectToHome : function () {
+                Backbone.history.navigate('home', {trigger:true});
             },
 
             initProject : function (options) {
@@ -112,13 +131,13 @@
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
                                     App.views.stepView = new CreateProjectView({
                                         'customers' : that.customersCollection
-                                    });                            
+                                    });
                                     App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                 });
-                            
+
                             break;
                         }
-                        
+
                         case 'step2' : {
                             var that = this;
 
@@ -127,7 +146,7 @@
                                 .request('getRanges')
                                 .then(function (rangesCollection){
                                     that.rangesCollection = new RangesCollection(rangesCollection);
-                                    
+
                                     App.views.headerProjectView = new HeaderProjectView({
                                         'title' : 'Etape 2 : Conception de produit(s)'
                                     });
@@ -150,7 +169,7 @@
                                 .request('getModulesNatures')
                                 .then(function (modulesNatures){
                                     that.modulesNaturesCollection = new ModulesNaturesCollection(modulesNatures);
-                                    
+
                                     App.views.headerProjectView = new HeaderProjectView({
                                         'title' : 'Etape 3 : Conception de module(s)'
                                     });
@@ -170,22 +189,20 @@
 
                             this.modulesNaturesChannel = Radio.channel('ModulesNatures');
                             this.modulesChannel = Radio.channel('Modules');
-                            this.productsChannel = Radio.channel('Products');
                             this.rangeChannel = Radio.channel('Ranges');
-                            this.projectChannel = Radio.channel('Projects');
+                            this.productChannel = Radio.channel('Products');
 
-
-                            $.when( that.modulesChannel.request('getModule', that.projectId), 
-                                    that.productsChannel.request('getProduct', that.projectId))
+                            $.when( that.modulesChannel.request('getModule', that.projectId),
+                                    that.productChannel.request('getProduct', that.projectId))
                                 .then(function(modulesCollection, productsCollection) {
 
                                     that.modulesCollection = new ModulesCollection(modulesCollection[0]);
                                     that.productsCollection = new ProductsCollection(productsCollection[0]);
                                     that.productModel = that.productsCollection.first();
 
-                                    $.when( that.rangeChannel.request('getRanges'), 
+                                    $.when( that.rangeChannel.request('getRanges'),
                                             that.modulesNaturesChannel.request('getModulesNatures'),
-                                            that.projectChannel.request('getProjects'))
+                                            that.channel.request('getProjects'))
                                         .then(function(rangeCollection, modulesNaturesCollection, projectsCollection) {
 
                                             that.rangeCollection = new RangesCollection(rangeCollection[0]);
@@ -220,7 +237,7 @@
                             break;
                     }
                 }
-                
+
             }
         });
 

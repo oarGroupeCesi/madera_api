@@ -91,11 +91,6 @@ define([
 
         App.on('ajax:setTokenHeaders', function() {
             $.ajaxSetup({
-                /*headers: {
-                    "Content-Type" : "application/json",
-                    "Accept" : "application/json, text/html",
-                    "Authorization" : "Bearer " + token
-                },*/
                 beforeSend: function (xhr, type) {
                     var token = localStorage.getItem('token');
                     if (token) {
