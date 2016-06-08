@@ -22,14 +22,17 @@
 |
 */
 
-Route::group(['prefix' => 'api', 'middleware' => ['api', 'cors']], function () {
+Route::group(['prefix' => 'api'], function () {
 	Route::post('auth/login', 'Api\AuthController@authenticate');
-	Route::resource('customer', 'Api\CustomerController');
-	Route::resource('project', 'Api\ProjectController');
-	Route::resource('range', 'Api\RangeController');
-	Route::resource('product', 'Api\ProductController');
-	Route::resource('module', 'Api\ModuleController');
-	Route::resource('modulenature', 'Api\ModulenatureController');
+
+	Route::group(['middleware' => ['api', 'cors', 'jwt.auth']], function(){
+		Route::resource('customer', 'Api\CustomerController');
+		Route::resource('project', 'Api\ProjectController');
+		Route::resource('range', 'Api\RangeController');
+		Route::resource('product', 'Api\ProductController');
+		Route::resource('module', 'Api\ModuleController');
+		Route::resource('modulenature', 'Api\ModulenatureController');
+	});
 });
 
 Route::group(['middleware' => ['web']], function () {

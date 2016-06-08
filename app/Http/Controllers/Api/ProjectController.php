@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Customer;
-use App\Models\User;
+use JWTAuth;
 use Validator;
 use Exception;
 use Auth;
@@ -16,9 +16,11 @@ use Auth;
 class ProjectController extends Controller
 {
 
+    private $me;
+
     public function __construct()
     {
-        $this->middleware('auth.jwt.once');
+        $this->me =  JWTAuth::parseToken()->authenticate();
     }
     
     /**
@@ -69,7 +71,7 @@ class ProjectController extends Controller
             'quotation_price' => $request->get('quotation_price'),
             'quotation_date' => $request->get('quotation_date'),
             'customer_id' => $request->get('customer_id'),
-            'user_id' => Auth::user()->id
+            'user_id' => $this->me->id
         ]);
         
         return $project;
