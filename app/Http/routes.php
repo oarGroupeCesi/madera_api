@@ -24,7 +24,9 @@
 
 Route::group(['middleware' => ['web']], function () {
 
-	Route::group(['prefix' => 'api', 'middleware' => ['cors']], function () {
+	Route::get('/', ['as' => 'home', 'uses' => 'PagesController@index']);
+
+	Route::group(['prefix' => 'api'], function () {
 		Route::post('auth/login', 'Api\AuthController@authenticate');
 		Route::resource('customer', 'Api\CustomerController');
 		Route::resource('project', 'Api\ProjectController');
@@ -44,7 +46,7 @@ Route::group(['middleware' => ['web']], function () {
 		Route::get('natures-module', 'Docs\StaticPages@naturesModule');
 		Route::get('modules', 'Docs\StaticPages@modules');
 	});
-	
+
 });
 
 

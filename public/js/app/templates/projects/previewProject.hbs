@@ -1,0 +1,67 @@
+<div class="row">
+	<div class="col-sm-12">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p class="lead">Produit</p>
+				{{#each this.data.product}}
+				<blockquote>
+					<p>{{name}} - créé le {{formated_date created_at}}</p>
+					<footer>Gamme associée : <cite title="Source Title">{{../this.data.range.name}} 
+					({{../this.data.range.exterior_finish}} - {{../this.data.range.insulating}} - {{../this.data.range.top}} - {{../this.data.range.configuration}})</cite></footer>
+				</blockquote>
+				{{/each}}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-12">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Modules</th>
+					<th>Type</th>
+					<th>Référence</th>
+					<th>Quantité</th>
+					<th>Prix/Unité</th>
+					<th>Tarif HT</th>
+					<th>Tarif TTC</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each this.data.modules}}
+				<tr>
+					<th scope="row">{{name}}</th>
+					<td>{{moduleNature.name}}</td>
+					<td>MAD00{{id}}</td>
+					<td>{{quantity}}</td>
+					<td>{{moduleNature.price}}€</td>
+					<td>{{math quantity "*" moduleNature.price}}€</td>
+					<td>-</td>
+				</tr>
+				{{/each}}
+			</tbody>
+
+			<tfoot>
+				<tr>
+					<th scope="row"></th>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>Total : </td>
+					<td>{{this.data.total}}€</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+	<div class="col-sm-12">
+		<div id="footerForm" class="col-sm-4 col-sm-offset-4">
+			<div class="form-group center-block">
+				<button type="button" id="validateProject" class="btn btn-lg btn-default btn-custom-light">
+					<i class="fa fa-lg fa-check"></i> Finaliser le devis
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

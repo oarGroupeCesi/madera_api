@@ -1,0 +1,72 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-4 col-xs-offset-4 text-center">
+					<button type="button" id="create_project" class="btn btn-success btn-custom-light btn-lg btn-lg-max"><i class="fa fa-plus-circle"></i> Créer un devis</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="spacing-lg"></div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-6 col-xs-offset-3">
+					<form id="searchForm">
+						<div class="input-group input-group-lg">
+							<input type="text" class="form-control input-lg" id="search-devis" placeholder="Rechercher un devis">
+							<span class="input-group-btn">
+								<button class="btn btn-default btn-lg btn-custom-dark" type="submit"><i class="fa fa-search"></i></button>
+							</span>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12">
+			<div class="row">
+				<div class="col-xs-6 col-xs-offset-3">
+					<div class="list-group">
+						<a class="list-group-item active text-center">Mes derniers devis</a>
+						{{#xif " this.data.projects.length "}}
+							{{#each data.projects}}
+							<a href="#projects/{{id}}" class="list-group-item">
+								{{#xif " this.status == 'draft' "}}
+									<span class="badge badge-warning">Brouillon</span>
+								{{else}}
+									{{#xif " this.status == 'accepted' "}}
+										<span class="badge badge-success">Accepté</span>
+									{{else}}
+										{{#xif " this.status == 'pending' "}}
+											<span class="badge badge-primary">En cours</span>
+										{{else}}
+											{{#xif " this.status == 'refused' "}}
+												<span class="badge badge-danger">Refusé</span>
+											{{else}}
+												{{#xif " this.status == 'command' "}}
+													<span class="badge badge-default">Commandé</span>
+												{{else}}
+													<span class="badge badge-info">Facturé</span>
+												{{/xif}}
+											{{/xif}}
+										{{/xif}}
+									{{/xif}}
+								{{/xif}}
+								Devis n°{{id}} : {{name}}
+							</a>
+							{{/each}}
+						{{else}}
+							<a class="list-group-item">Aucuns devis récents</a>
+						{{/xif}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

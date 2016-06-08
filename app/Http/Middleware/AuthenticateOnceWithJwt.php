@@ -20,6 +20,7 @@ class AuthenticateOnceWithJwt
     public function handle($request, Closure $next)
     {
         $token = trim(str_replace("Bearer", "", $request->header('authorization')));
+
         try {
             $user = JWT::decode($token, Config::get('services.jwt.secret'), array('HS256'));
             if (Auth::attempt(['email' => $user->email, 'password' => $user->pass])) {
@@ -27,7 +28,7 @@ class AuthenticateOnceWithJwt
             }
             else {
                 return response('Unauthorized.', 401);
-            }   
+            }
         } catch (Exception $e) {
             return response()->json([
                 "message" => "Token invalid"

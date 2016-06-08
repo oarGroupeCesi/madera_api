@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \App\Http\Middleware\Cors::class
+        //\App\Http\Middleware\Cors::class
     ];
 
     /**
@@ -51,6 +51,6 @@ class Kernel extends HttpKernel
         'auth.jwt.once' => \App\Http\Middleware\AuthenticateOnceWithJwt::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'cors' => \App\Http\Middleware\Cors::class,
+        //'cors' => \App\Http\Middleware\Cors::class,
     ];
 }
