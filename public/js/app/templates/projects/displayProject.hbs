@@ -1,83 +1,128 @@
 <div class="col-sm-12">
-    <button type="button" id="validateProject" class="btn btn-lg btn-default">
-        <i class="fa fa-angle-left"></i> Retour
-    </button>
+    <div class="row">
+        <div class="col-sm-10">
+            <button type="button" id="goBack" class="btn btn-lg btn-default">
+                <i class="fa fa-angle-left"></i> Retour
+            </button>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" id="deleteProject" class="btn btn-lg btn-danger">
+                <i class="fa fa-trash-o"></i> Supprimer
+            </button>
+        </div>
+    </div>
 </div>
 
 <div class="row padding-large">
 
     <div class="page-header col-sm-12">
-        <h1>{{name}} <small class="small-size">(<span title="status">s<sub>t</sub></span> : {{i18n "app.projects.status" status}})</small></h1>
+        <h1>{{name}} <small class="small-size">(<span data-toggle="tooltip" data-placement="top" title="Status">s<sub>t</sub></span> : {{i18n "app.projects.status" status}})</small></h1>
     </div>
 
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                <p class="lead">Produit(s)</p>
-                {{#each this.products}}
-                <blockquote>
-                    <div class="dropup">
-                        <p id="productDropUp" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{name}}
-                        </p>
-                        <ul class="dropdown-menu" aria-labelledby="productDropUp">
-                            <li><a>{{i18n "app.global.created_at"}} {{formated_date p_created_at}}</a></li>
-                        </ul>
-                    </div>
-                    <footer>{{i18n "app.ranges.title"}} :
-                        <cite>
-                            <ul class="range-list">
-                                <li><a>{{i18n "app.ranges.configuration.label"}} : {{i18n "app.ranges.configuration.enum" configuration}}</a></li>
-                                <li><a>{{i18n "app.ranges.exterior_finish.label"}} : {{i18n "app.ranges.exterior_finish.enum" exterior_finish}}</a></li>
-                                <li><a>{{i18n "app.ranges.insulating.label"}} : {{i18n "app.ranges.insulating.enum" insulating}}</a></li>
-                                <li><a>{{i18n "app.ranges.top.label"}} : {{i18n "app.ranges.top.enum" top}}</a></li>
+                {{#if products}}
+                    <p class="lead">Produit(s)</p>
+                    {{#each products}}
+                    <blockquote>
+                        <div class="dropup">
+                            <p id="productDropUp" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{name}}
+                            </p>
+                            <ul class="dropdown-menu" aria-labelledby="productDropUp">
+                                <li><a>{{i18n "app.global.created_at"}} {{formated_date p_created_at}}</a></li>
                             </ul>
-                        </cite>
-                    </footer>
-                </blockquote>
-                {{/each}}
+                        </div>
+                        <footer>{{i18n "app.ranges.title"}} :
+                            <cite>
+                                <ul class="range-list">
+                                    <li>
+                                        <i class="custom-icon configuration" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.configuration.label"}}"></i>
+                                        {{i18n "app.ranges.configuration.enum" configuration}}
+                                    </li>
+                                    <li>
+                                        <i class="custom-icon exterior_finish" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.exterior_finish.label"}}"></i>
+                                        {{i18n "app.ranges.exterior_finish.enum" exterior_finish}}
+                                    </li>
+                                    <li>
+                                        <i class="custom-icon insulating" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.insulating.label"}}"></i>
+                                        {{i18n "app.ranges.insulating.enum" insulating}}
+                                    </li>
+                                    <li>
+                                        <i class="custom-icon top" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.top.label"}}"></i>
+                                        {{i18n "app.ranges.top.enum" top}}
+                                    </li>
+                                </ul>
+                            </cite>
+                        </footer>
+                    </blockquote>
+                    {{/each}}
+                {{else}}
+                    <div class="col-sm-4">
+                        <h2><small>Aucuns produits référencés pour ce projet.</small></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" id="addProductsToProject" class="btn btn-success">
+                            <i class="fa fa-plus"></i> En ajouter un
+                        </button>
+                    </div>
+                {{/if}}
             </div>
         </div>
     </div>
 
     <div class="col-sm-12">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Modules</th>
-                    <th>Type</th>
-                    <th>Référence</th>
-                    <th>Quantité</th>
-                    <th>Prix/Unité</th>
-                    <th>Tarif HT</th>
-                    <th>Tarif TTC</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each modules}}
-                <tr>
-                    <th scope="row">{{name}}</th>
-                    <td>{{moduleNature.name}}</td>
-                    <td>MAD00{{id}}</td>
-                    <td>{{quantity}}</td>
-                    <td>{{moduleNature.price}}€</td>
-                    <td>{{math quantity "*" moduleNature.price}}€</td>
-                    <td>-</td>
-                </tr>
-                {{/each}}
-            </tbody>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {{#if modules}}
+                    <p class="lead">Module(s)</p>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Intitulé</th>
+                                <th>Type</th>
+                                <th>Référence</th>
+                                <th>Quantité</th>
+                                <th>Prix Unitaire</th>
+                                <th>Prix TTC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each modules}}
+                            <tr>
+                                <th scope="row">{{m_name}}</th>
+                                <td>{{name}}</td>
+                                <td>MAD00{{m_id}}</td>
+                                <td>{{quantity}}</td>
+                                <td>{{price}}€</td>
+                                <td>{{math quantity "*" price}}€</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
 
-            <tfoot>
-                <tr>
-                    <th scope="row"></th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>Total : </td>
-                    <td>{{this.data.total}}€</td>
-                </tr>
-            </tfoot>
-        </table>
+                        <tfoot>
+                            <tr>
+                                <th scope="row"></th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="total-label">Total : </td>
+                                <td class="total-price">{{this.data.total}}€</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                {{else}}
+                    <div class="col-sm-4">
+                        <h2><small>Aucuns modules référencés pour ce projet.</small></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" id="addModulesToProject" class="btn btn-success">
+                            <i class="fa fa-plus"></i> En ajouter un
+                        </button>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
     </div>
 </div>

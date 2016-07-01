@@ -142,6 +142,37 @@ p.bg-info {
     font-size: 14px;
 }
 
+
+/**
+ * ICONS
+ * -----------------------------------------------------------------------------
+ */
+.custom-icon {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin: 1px;
+    padding: 1px;
+    display: inline-flex;
+}
+
+.custom-icon.configuration {
+    background: transparent url(../images/icons/svg/wrench.svg) no-repeat;
+}
+
+.custom-icon.exterior_finish {
+    background: transparent url(../images/icons/svg/paint-brush_2.svg) no-repeat;
+}
+
+.custom-icon.insulating {
+    background: transparent url(../images/icons/svg/shield.svg) no-repeat;
+}
+
+.custom-icon.top {
+    background: transparent url(../images/icons/svg/roofing.svg) no-repeat;
+}
+
+
 /**
  * TEXT SELECT
  * -----------------------------------------------------------------------------
@@ -518,10 +549,29 @@ body.login header.nav {
     color: #00B16A;
 }
 
+#addProductsToProject, #addModulesToProject {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
 .range-list li {
     list-style-type: none;
 }
 
-.range-list li:before {
-    content: "– ";
+.table.table-bordered thead,
+.table.table-bordered tfoot {
+    background: rgba(255,255,255,.8);
+}
+
+.table.table-bordered.table-striped>tbody>tr {
+    background-color: rgba(0,0,0,.1);
+}
+
+.table.table-bordered .total-label {
+    text-align: right;
+}
+
+.table.table-bordered .total-price {
+    background-color: #00B16A;
+    color: #fff;
 }

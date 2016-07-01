@@ -8,22 +8,22 @@ define(["backbone",
         "models/module",
         "views/modules/renderModuleFormAfterSelectModuleTypeView",
         "hbs!/js/app/templates/modules/createModuleForm"],
-        function (Backbone, Radio, Marionette, $, _, 
-                  BaseLayoutView, 
-                  ValidationBehavior, 
+        function (Backbone, Radio, Marionette, $, _,
+                  BaseLayoutView,
+                  ValidationBehavior,
                   ModuleModel, RenderModuleFormView, CreateModuleFormTemplate) {
             "use strict";
 
             var CreateModuleView = BaseLayoutView.extend({
                 template: CreateModuleFormTemplate,
                 model : new ModuleModel(),
-                
+
                 behaviors: {
                     ValidationBehavior: {
                         behaviorClass: ValidationBehavior
                     }
                 },
-                
+
                 events : {
                     'change .moduleNature'      : 'showModuleForm',
                     'submit form'               : 'handleModuleSave',
@@ -31,10 +31,10 @@ define(["backbone",
                     'click #addAnotherModule'   : 'addAnotherModule',
                     'click .deleteModule'       : 'deleteModule'
                 },
-                
+
                 initialize: function (options) {
                     var that = this;
-                    
+
                     if(!options.modulesNatures || !options.projectId) {
                         return false;
                     }
@@ -42,13 +42,13 @@ define(["backbone",
                     BaseLayoutView.prototype.initialize.apply(this, arguments);
 
                     this.channel = Radio.channel('Modules');
-                    
+
                     this.modulesNatures = options.modulesNatures;
                     this.projectId = options.projectId;
 
                     this.render();
                 },
-                
+
                 onBeforeRender : function () {
                     this.data.modulesNatures = this.modulesNatures.toJSON();
                 },
@@ -86,7 +86,7 @@ define(["backbone",
 
                 handleModuleSave : function (e) {
                     $("#message").find('.alert').addClass("hide").empty();
-                    
+
                     e.preventDefault();
 
                     var that = this,
@@ -96,7 +96,9 @@ define(["backbone",
                     $('#modules .module-contain').each(function(index, divModule) {
 
                         dataModule[index] = {
-                            'name' : $(divModule).find("input[name='name']").val(),
+                            'name' : ($(divModule).find("input[name='name']").val() != '')
+                                        ? $(divModule).find("input[name='name']").val()
+                                        : $(divModule).find("option[value='"+$(divModule).find("select[name='modulenature_id']").val()+"']").text(),
                             'height' : $(divModule).find("input[name='height']").val() || '',
                             'width' : $(divModule).find("input[name='width']").val(),
                             'quantity' : $(divModule).find("input[name='quantity']").val(),
@@ -105,10 +107,10 @@ define(["backbone",
                         };
 
                     });
-                    
+
                     $form.find('input, textarea, button, select').attr('disabled', 'disabled');
-                    
-                    $.each(dataModule, function(i, moduleModel){                        
+
+                    $.each(dataModule, function(i, moduleModel){
                         that.channel
                             .request('saveModule', moduleModel)
                             .then(function(module){
@@ -119,7 +121,7 @@ define(["backbone",
                                 that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
                             });
                     });
-                    
+
                 },
 
                 addAnotherModule : function (e) {
@@ -128,7 +130,7 @@ define(["backbone",
                     if(!$('#modules .module-contain:last-child').find('.input-module-group').length) {
                         return false;
                     }
-                    
+
                     var $modulesContent = $('#modules-hidden').html(),
                         $test = $($modulesContent);
 
@@ -181,7 +183,7 @@ define(["backbone",
                     });
                 },
 
-                enableForm : function($form) {  
+                enableForm : function($form) {
                     $form.find('input:not([readonly]), textarea, button, select:not(".readonly")').removeAttr('disabled');
                 },
 

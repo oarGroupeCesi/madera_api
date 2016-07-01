@@ -17,35 +17,65 @@ define(["backbone",
 
                 template: DisplayProjectTemplate,
 
-                initialize: function (options) {
-                    var that = this;
+                events : {
+                    'click #goBack'                 : 'goBack',
+                    'click #deleteProject'          : 'deleteProject',
+                    'click #addProductsToProject'   : 'redirectToProductsAdding',
+                    'click #addModulesToProject'    : 'redirectToModulesAdding'
+                },
 
+                initialize: function (options) {
                     this.channel = Radio.channel('Projects');
 
-                    console.log(options);
-
                     BaseItemView.prototype.initialize.apply(this, arguments);
-
-                    console.log('in', this.model);
 
                     this.render();
                 },
 
-                onDomRefresh : function () {
-                    /*var that = this,
-                        totalModule = 0;
-                    this.data.modules = this.modulesCollection.toJSON();
-                    this.data.product = this.productsCollection.toJSON();
-                    this.data.range = this.rangeModel.toJSON();
+                onShow : function () {
+                    this.$el.find('[data-toggle="tooltip"]').tooltip();
+                },
 
-                    for(var i = 0; i < this.data.modules.length; i++) {
-                        totalModule += this.data.modules[i].quantity * this.data.modules[i].moduleNature.price;
+                getTotalPriceOfModules : function () {
+                    var totalModule = 0;
+
+                    this.modules = this.model.get('modules');
+
+                    for(var i = 0; i < this.modules.length; i++) {
+                        totalModule += this.modules[i].quantity * this.modules[i].price;
                     }
 
-                    this.data.total = totalModule;*/
+                    return totalModule;
+                },
+
+                goBack : function (e) {
+                    e.preventDefault();
+
+                    Backbone.history.navigate('#home', {trigger:true});
+                },
+
+                deleteProject : function (e) {
+                    e.preventDefault();
+
+                    if(confirm("Voulez-vous réellement supprimer ce projet ?")) {
+                        console.log('confirm suppress');
+                    }
+                },
+
+                redirectToProductsAdding : function (e) {
+                    e.preventDefault();
+
+                    Backbone.history.navigate("projects/edit/"+this.model.id+"/step1/products/edit", {trigger:true});
+                },
+
+                redirectToModulesAdding : function (e) {
+                    e.preventDefault();
+
+                    Backbone.history.navigate("projects/edit/"+this.model.id+"/step2/modules/edit", {trigger:true});
                 },
 
                 serializeData : function () {
+                    this.data.total = this.getTotalPriceOfModules();
 
                     var viewData = {data: this.data};
                     return _.extend(viewData, BaseItemView.prototype.serializeData.apply(this, arguments));

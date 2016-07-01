@@ -60,7 +60,7 @@
                 "label" : "Configuration",
                 "enum" : {
                     "without_angle" : "Sans angle",
-                    "with_closing_angle" : "Avec angle fermé",
+                    "with_closing_angle" : "Avec angle fermant",
                     "with_opening_angle" : "Avec angle ouvrant"
                 }
             }

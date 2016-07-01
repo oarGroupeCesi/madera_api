@@ -88,7 +88,7 @@ class ProjectController extends Controller
             ->select('products.*', 'ranges.*', 'products.created_at AS p_created_at');
         }, 'modules' => function($query) {
             $query->join('moduleNatures', 'moduleNatures.id', '=', 'modules.modulenature_id')
-            ->select('modules.*', 'moduleNatures.*', 'modules.name AS m_name');
+            ->select('modules.*', 'moduleNatures.*', 'modules.name AS m_name', 'modules.id as m_id');
         }])->where('id', $id)->first();
 
         if (!$project) {

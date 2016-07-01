@@ -187,48 +187,18 @@
                         case 'step4' : {
                             var that = this;
 
-                            this.modulesNaturesChannel = Radio.channel('ModulesNatures');
-                            this.modulesChannel = Radio.channel('Modules');
-                            this.rangeChannel = Radio.channel('Ranges');
-                            this.productChannel = Radio.channel('Products');
+                            this.channel.request('getProject', this.projectId)
+                                .then(function(projectModel) {
 
-                            $.when( that.modulesChannel.request('getModule', that.projectId),
-                                    that.productChannel.request('getProduct', that.projectId))
-                                .then(function(modulesCollection, productsCollection) {
-
-                                    that.modulesCollection = new ModulesCollection(modulesCollection[0]);
-                                    that.productsCollection = new ProductsCollection(productsCollection[0]);
-                                    that.productModel = that.productsCollection.first();
-
-                                    $.when( that.rangeChannel.request('getRanges'),
-                                            that.modulesNaturesChannel.request('getModulesNatures'),
-                                            that.channel.request('getProjects'))
-                                        .then(function(rangeCollection, modulesNaturesCollection, projectsCollection) {
-
-                                            that.rangeCollection = new RangesCollection(rangeCollection[0]);
-                                            that.projectsCollection = new ProjectsCollection(projectsCollection[0]);
-                                            that.rangeModel = that.rangeCollection.findWhere({id: that.productModel.get('range_id')});
-                                            that.projectModel = that.projectsCollection.findWhere({id: parseInt(that.projectId)});
-                                            that.modulesNaturesCollection = new ModulesNaturesCollection(modulesNaturesCollection[0]);
-                                            that.modulesCollection.each(function(module) {
-                                                module.set('moduleNature', that.modulesNaturesCollection.findWhere({id: module.get('modulenature_id')}));
-                                            });
-
-                                            App.views.headerProjectView = new HeaderProjectView({
-                                                'title' : 'Aperçu du devis final'
-                                            });
-                                            App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
-                                            App.views.stepView = new PreviewProjectView({
-                                                'project' : that.projectModel,
-                                                'projectId' : that.projectId,
-                                                'modules' : that.modulesCollection,
-                                                'products' : that.productsCollection,
-                                                'range' : that.rangeModel
-                                            });
-                                            App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
-                                        });
+                                    App.views.headerProjectView = new HeaderProjectView({
+                                        'title' : 'Aperçu du devis final'
+                                    });
+                                    App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
+                                    App.views.stepView = new PreviewProjectView({
+                                        'model' : new ProjectModel(projectModel)
+                                    });
+                                    App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                 });
-
 
                             break;
                         }

@@ -30,7 +30,7 @@
 				<li class="list-group-item">
 					<label for="top">Couverture : </label>
 					<select id="top" name="top" class="form-control">
-						<option value="roof tiles" {{#xif " this.data.options.top == 'roof tiles' "}}selected{{/xif}}>Tuiles</option>
+						<option value="roof_tiles" {{#xif " this.data.options.top == 'roof_tiles' "}}selected{{/xif}}>Tuiles</option>
 						<option value="slates" {{#xif " this.data.options.top == 'slates' "}}selected{{/xif}}>Ardoise</option>
 						<option value="thatch" {{#xif " this.data.options.top == 'thatch' "}}selected{{/xif}}>Chaume</option>
 					</select>
@@ -38,9 +38,9 @@
 				<li class="list-group-item">
 					<label for="configuration">Configuration : </label>
 					<select id="configuration" name="configuration" class="form-control">
-						<option value="Without angle" {{#xif " this.data.options.configuration == 'Without angle' "}}selected{{/xif}}>Sans angle</option>
-						<option value="With closing angle" {{#xif " this.data.options.configuration == 'With closing angle' "}}selected{{/xif}}>Avec angle sortant</option>
-						<option value="With opening angle" {{#xif " this.data.options.configuration == 'With opening angle' "}}selected{{/xif}}>Avec angle entrant</option>
+						<option value="without_angle" {{#xif " this.data.options.configuration == 'without_angle' "}}selected{{/xif}}>Sans angle</option>
+						<option value="with_closing_angle" {{#xif " this.data.options.configuration == 'with_closing_angle' "}}selected{{/xif}}>Avec angle sortant</option>
+						<option value="with_opening_angle" {{#xif " this.data.options.configuration == 'with_opening_angle' "}}selected{{/xif}}>Avec angle entrant</option>
 					</select>
 				</li>
 			</ul>

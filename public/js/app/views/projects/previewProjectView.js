@@ -7,65 +7,65 @@ define(["backbone",
         "models/project",
         "models/customer",
         "hbs!/js/app/templates/projects/previewProject"],
-        function (Backbone, Radio, Marionette, $, _,  
-                  BaseItemView, 
-                  ProjectModel, CustomerModel, 
+        function (Backbone, Radio, Marionette, $, _,
+                  BaseItemView,
+                  ProjectModel, CustomerModel,
                   PreviewProjectTemplate) {
             "use strict";
 
             var PreviewProjectView = BaseItemView.extend({
                 template: PreviewProjectTemplate,
-                model : new ProjectModel(),
-                
+
                 events : {
                     'click #validateProject' : 'validateProject'
                 },
-                
+
                 initialize: function (options) {
-                    var that = this;
-                    
+                    this.channel = Radio.channel('Projects');
+
                     BaseItemView.prototype.initialize.apply(this, arguments);
 
-                    this.channel = Radio.channel('Projects');
-                    
-                    console.log(options);
-
-                    this.project = options.project || {};
-                    this.projectId = options.projectId;
-                    this.modulesCollection = options.modules || {};
-                    this.productsCollection = options.products || {};
-                    this.rangeModel = options.range || {};
+                    console.log(this.model);
 
                     this.render();
                 },
 
-                onBeforeRender : function () {
-                    var that = this,
-                        totalModule = 0;
-                    this.data.modules = this.modulesCollection.toJSON();
-                    this.data.product = this.productsCollection.toJSON();
-                    this.data.range = this.rangeModel.toJSON();
-
-                    for(var i = 0; i < this.data.modules.length; i++) {
-                        totalModule += this.data.modules[i].quantity * this.data.modules[i].moduleNature.price;
-                    }
-
-                    this.data.total = totalModule;
+                onShow : function () {
+                    this.$el.find('[data-toggle="tooltip"]').tooltip();
                 },
 
-                validateProject : function (e) {                  
+                getTotalPriceOfModules : function () {
+                    var totalModule = 0;
+
+                    this.modules = this.model.get('modules');
+
+                    for(var i = 0; i < this.modules.length; i++) {
+                        totalModule += this.modules[i].quantity * this.modules[i].price;
+                    }
+
+                    return totalModule;
+                },
+
+                validateProject : function (e) {
                     e.preventDefault();
-                    
-                    var that = this;    
-                        
-                    this.project.set('status', 'pending');
-                    
+
+                    var that = this;
+
+                    this.model.set('status', 'pending');
+
                     that.channel
-                        .request('saveProject', this.project)
+                        .request('saveProject', this.model)
                         .then(function(projectModel){
                             that.model = new ProjectModel(projectModel);
                             Backbone.history.navigate("home", {trigger:true});
                         });
+                },
+
+                serializeData : function () {
+                    this.data.total = this.getTotalPriceOfModules();
+
+                    var viewData = {data: this.data};
+                    return _.extend(viewData, BaseItemView.prototype.serializeData.apply(this, arguments));
                 }
             });
 
