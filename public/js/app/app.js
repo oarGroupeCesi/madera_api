@@ -3,12 +3,14 @@ define([
     'underscore',
     'marionette',
     'moment',
+    'i18n',
+    'i18nXHR',
     'controllers/usersController',
     'controllers/pagesController',
     'controllers/projectsController',
     'views/headerView',
     'views/appLayoutView'
-], function (Backbone, _, Marionette, Moment,
+], function (Backbone, _, Marionette, Moment, i18n, i18nXHR,
              UsersController, PagesController, ProjectsController,
              HeaderView, AppLayoutView) {
     "use strict";
@@ -35,6 +37,20 @@ define([
         App.router = new Marionette.AppRouter();
 
         Moment.locale('fr');
+
+        i18n
+        .use(i18nXHR)
+        .init({
+            "fallbackLng" : "fr",
+            "defaultNS" : "translation",
+            "ns" : [ "translation" ],
+            "backend" : {
+                "loadPath" : "/js/locales/{{lng}}/{{ns}}.json"
+            },
+            "trigger" : "i18n:file:loaded"
+        }, function () {
+            App.start();
+        });
 
         App.on("start", function() {
             App.views.appLayoutView.getRegion('header').show(new HeaderView());
@@ -100,8 +116,6 @@ define([
                 }
             });
         });
-
-        App.start();
 
     };
 

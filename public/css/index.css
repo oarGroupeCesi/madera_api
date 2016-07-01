@@ -504,3 +504,24 @@ body.login header.nav {
     margin-top: 50px;
     margin-bottom: 50px;
 }
+
+
+/**
+ * VIEW
+ * -----------------------------------------------------------------------------
+ */
+#productDropUp {
+    cursor: pointer;
+}
+
+#productDropUp:hover {
+    color: #00B16A;
+}
+
+.range-list li {
+    list-style-type: none;
+}
+
+.range-list li:before {
+    content: "– ";
+}

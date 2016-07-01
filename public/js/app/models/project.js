@@ -1,6 +1,7 @@
 define(["backbone",
-        "collections/products"],
-    function (Backbone, ProductsCollection) {
+        "collections/products",
+        "collections/modules"],
+    function (Backbone, ProductsCollection, ModulesCollection) {
         "use strict";
 
         var Project = Backbone.Model.extend({
@@ -11,7 +12,8 @@ define(["backbone",
                 "quotation_date" : null,
                 "customer_id" : null,
                 "user_id" : null,
-                "products" : new ProductsCollection()
+                "products" : new ProductsCollection(),
+                "modules" : new ModulesCollection()
             },
             urlRoot: "/api/project"
         });

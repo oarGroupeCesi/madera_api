@@ -8,6 +8,8 @@ require.config({
         "marionette" : "/js/vendor/marionette/backbone.marionette",
         "hbs": "/js/vendor/require/plugins/require-handlebars-plugin/hbs",
         "text": "/js/vendor/require/plugins/text/text",
+        "i18n": "/js/vendor/require/plugins/require-i18next/i18next.min",
+        "i18nXHR": "/js/vendor/require/plugins/require-i18next/plugins/i18nextXHRBackend.min",
         "baseLayoutView" : "/js/app/views/baseLayoutView",
         "baseItemView" : "/js/app/views/baseItemView",
         "bootstrap" : "/js/vendor/bootstrap/bootstrap.min",

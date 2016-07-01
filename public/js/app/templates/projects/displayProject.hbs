@@ -1,18 +1,39 @@
+<div class="col-sm-12">
+    <button type="button" id="validateProject" class="btn btn-lg btn-default">
+        <i class="fa fa-angle-left"></i> Retour
+    </button>
+</div>
+
 <div class="row padding-large">
 
     <div class="page-header col-sm-12">
-        <h1>{{name}} <small class="small-size">(<span title="status">s<sub>t</sub></span> : {{status}})</small></h1>
+        <h1>{{name}} <small class="small-size">(<span title="status">s<sub>t</sub></span> : {{i18n "app.projects.status" status}})</small></h1>
     </div>
 
     <div class="col-sm-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <p class="lead">Produit(s)</p>
-                {{#each this.data.product}}
+                {{#each this.products}}
                 <blockquote>
-                    <p>{{name}} - créé le {{formated_date created_at}}</p>
-                    <footer>Gamme associée : <cite title="Source Title">{{../this.data.range.name}}
-                    ({{../this.data.range.exterior_finish}} - {{../this.data.range.insulating}} - {{../this.data.range.top}} - {{../this.data.range.configuration}})</cite></footer>
+                    <div class="dropup">
+                        <p id="productDropUp" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{name}}
+                        </p>
+                        <ul class="dropdown-menu" aria-labelledby="productDropUp">
+                            <li><a>{{i18n "app.global.created_at"}} {{formated_date p_created_at}}</a></li>
+                        </ul>
+                    </div>
+                    <footer>{{i18n "app.ranges.title"}} :
+                        <cite>
+                            <ul class="range-list">
+                                <li><a>{{i18n "app.ranges.configuration.label"}} : {{i18n "app.ranges.configuration.enum" configuration}}</a></li>
+                                <li><a>{{i18n "app.ranges.exterior_finish.label"}} : {{i18n "app.ranges.exterior_finish.enum" exterior_finish}}</a></li>
+                                <li><a>{{i18n "app.ranges.insulating.label"}} : {{i18n "app.ranges.insulating.enum" insulating}}</a></li>
+                                <li><a>{{i18n "app.ranges.top.label"}} : {{i18n "app.ranges.top.enum" top}}</a></li>
+                            </ul>
+                        </cite>
+                    </footer>
                 </blockquote>
                 {{/each}}
             </div>
@@ -33,7 +54,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each this.data.modules}}
+                {{#each modules}}
                 <tr>
                     <th scope="row">{{name}}</th>
                     <td>{{moduleNature.name}}</td>
@@ -58,15 +79,5 @@
                 </tr>
             </tfoot>
         </table>
-    </div>
-
-    <div class="col-sm-12">
-        <div id="footerForm" class="col-sm-4 col-sm-offset-4">
-            <div class="form-group center-block">
-                <button type="button" id="validateProject" class="btn btn-lg btn-default">
-                    <i class="fa fa-angle-left"></i> Retour
-                </button>
-            </div>
-        </div>
     </div>
 </div>

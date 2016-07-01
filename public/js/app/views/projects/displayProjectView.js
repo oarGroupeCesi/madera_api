@@ -22,7 +22,11 @@ define(["backbone",
 
                     this.channel = Radio.channel('Projects');
 
+                    console.log(options);
+
                     BaseItemView.prototype.initialize.apply(this, arguments);
+
+                    console.log('in', this.model);
 
                     this.render();
                 },

@@ -1,0 +1,69 @@
+{
+    "app": {
+        "global" : {
+            "app_name" : "Madera",
+            "loading_app" : "Chargement de l'application...",
+            "close" : "Fermer",
+            "cancel" : "Annuler",
+            "save" : "Enregistrer",
+            "sort_by" : "Trier par",
+            "edit" : "Éditer",
+            "update" : "Mettre à jour",
+            "delete" : "Supprimer",
+            "created_at" : "Créé le"
+        },
+        "login" : {
+            "connect" : "Connectez-vous<br />avec votre compte MedicActiV",
+            "forgot_password" : "Mot de passe oublié ?",
+            "create_account" : "Créez un compte",
+            "email" : "Email",
+            "password" : "Mot de passe",
+            "connect_button" : "Se connecter"
+        },
+        "logout" : "Déconnexion",
+        "projects" : {
+            "status" : {
+                "draft" : "Brouillon",
+                "accepted" : "Accepté",
+                "pending" : "En cours",
+                "refused" : "Refusé",
+                "command" : "Commandé",
+                "billing" : "Facturé"
+            }
+        },
+        "ranges" : {
+            "title" : "Gamme associée",
+            "exterior_finish" : {
+                "label" : "Finitions extérieures",
+                "enum" : {
+                    "wood" : "Bois",
+                    "roughcast" : "Crépi"
+                }
+            },
+            "insulating" : {
+                "label" : "Isolant",
+                "enum" : {
+                    "synthetic" : "Synthétique",
+                    "natural" : "Naturel",
+                    "biological" : "Biologique"
+                }
+            },
+            "top" : {
+                "label" : "Toiture",
+                "enum" : {
+                    "roof_tiles" : "Tuiles",
+                    "slate" : "Ardoise",
+                    "thatch" : "Chaume"
+                }
+            },
+            "configuration" : {
+                "label" : "Configuration",
+                "enum" : {
+                    "without_angle" : "Sans angle",
+                    "with_closing_angle" : "Avec angle fermé",
+                    "with_opening_angle" : "Avec angle ouvrant"
+                }
+            }
+        }
+    }
+}

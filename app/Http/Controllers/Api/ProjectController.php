@@ -83,7 +83,13 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with('products')->where('id', $id)->first();
+        $project = Project::with(['products' => function ($query) {
+            $query->join('ranges','ranges.id', '=', 'products.range_id')
+            ->select('products.*', 'ranges.*', 'products.created_at AS p_created_at');
+        }, 'modules' => function($query) {
+            $query->join('moduleNatures', 'moduleNatures.id', '=', 'modules.modulenature_id')
+            ->select('modules.*', 'moduleNatures.*', 'modules.name AS m_name');
+        }])->where('id', $id)->first();
 
         if (!$project) {
             return response()->json('Le projet n\'existe pas.', 404);
