@@ -24,7 +24,7 @@ class Module extends Model
     	'width',
         'quantity',
         'modulenature_id',
-        'project_id',
+        'product_id',
     ];
 
     /**
@@ -38,10 +38,10 @@ class Module extends Model
     ];
 
     /**
-     * Get the project that owns the module.
+     * Get the product that owns the module.
      */
-    public function project()
+    public function product()
     {
-        return $this->belongsTo('App\Models\Project');
+        return $this->belongsTo('App\Models\Product');
     }
 }

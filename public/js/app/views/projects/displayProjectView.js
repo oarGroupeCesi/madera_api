@@ -58,7 +58,11 @@ define(["backbone",
                     e.preventDefault();
 
                     if(confirm("Voulez-vous réellement supprimer ce projet ?")) {
-                        console.log('confirm suppress');
+                        this.channel
+                            .request('deleteProject', this.model)
+                            .then(function(response) {
+                                console.log(response);
+                            });
                     }
                 },
 

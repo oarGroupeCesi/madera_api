@@ -49,4 +49,12 @@ class Product extends Model
     {
         return $this->belongsTo('App\Models\Project');
     }
+
+    /**
+     * Get the modules for the project.
+     */
+    public function modules()
+    {
+        return $this->hasMany('App\Models\Module');
+    }
 }

@@ -9,7 +9,7 @@ define(["backbone"],
                 "width" : null,
                 "quantity" : null,
                 "modulenature_id" : null,
-                "project_id" : null
+                "product_id" : null
             },
             urlRoot: "/api/module",
             toJSON : function () {

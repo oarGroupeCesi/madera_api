@@ -35,7 +35,7 @@ define(["backbone",
                 initialize: function (options) {
                     var that = this;
 
-                    if(!options.modulesNatures || !options.projectId) {
+                    if(!options.modulesNatures || !options.projectId || !options.productId) {
                         return false;
                     }
 
@@ -45,6 +45,7 @@ define(["backbone",
 
                     this.modulesNatures = options.modulesNatures;
                     this.projectId = options.projectId;
+                    this.productId = options.productId;
 
                     this.render();
                 },
@@ -103,7 +104,7 @@ define(["backbone",
                             'width' : $(divModule).find("input[name='width']").val(),
                             'quantity' : $(divModule).find("input[name='quantity']").val(),
                             'modulenature_id' : parseInt($(divModule).find("select[name='modulenature_id']").val()),
-                            'project_id' : parseInt(that.projectId)
+                            'product_id' : parseInt(that.productId)
                         };
 
                     });

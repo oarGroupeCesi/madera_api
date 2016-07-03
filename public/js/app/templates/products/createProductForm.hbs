@@ -5,11 +5,11 @@
             <div class="col-sm-12 alert hide"></div>
         </div>
     </div>
-	
+
 	<div class="row">
 
 		<div class="col-sm-12">
-			<p class="bg-info"><i class="fa fa-lg fa-info-circle"></i> Un produit peut être représenté de différentes façons : une maison, un immeuble, un ensemble de maisons (une résidence), un garage, 
+			<p class="bg-info"><i class="fa fa-lg fa-info-circle"></i> Un produit peut être représenté de différentes façons : une maison, un immeuble, un ensemble de maisons (une résidence), un garage,
 			un abri de jardin, un bungalow ...</p>
 		</div>
 
@@ -38,14 +38,8 @@
 				    	<div class="form-group">
 							<div class="rangePanel"></div>
 				    	</div>
-				    </div>				
+				    </div>
 				</div>
-			</div>
-		</div>
-
-		<div id="footerForm" class="col-sm-4 col-sm-offset-7">
-			<div class="form-group center-block text-right">
-				<button type="button" id="addAnotherProduct" class="btn btn-success"><i class="fa fa-plus"></i> Ajouter un autre produit</button>
 			</div>
 		</div>
 	</div>
@@ -55,48 +49,6 @@
 	    	<span class="badge badge-primary"><i class="fa fa-arrow-left"></i></span> Étape précédente
 	    </a>
 	    <button type="submit" class="btn btn-primary ">Enregistrer</button>
-	    <a href="#" class="btn btn-neutre btn-labeled next">
-	    	Étape suivante <span class="badge badge-primary"><i class="fa fa-arrow-right"></i></span>
-	    </a>
 	</div>
 
 </form>
-
-<div class="hidden">
-	<div id="products-hidden" class="col-sm-12">
-		<div class="product-contain col-sm-12">
-			<div class="row">
-			    <div class="col-sm-12">
-			    	<div class="row">
-			    		<div class="col-sm-6 text-left">
-			    			<p class="product-label">Produit n°<span class="number"></span></p>
-			    		</div>
-			    		<div class="col-sm-6 text-right">
-			    			<a href="#" class="deleteProduct text-danger" data-toggle="tooltip" data-placement="right" title="Supprimer le produit"><i class="fa fa-trash"></i></a>
-			    		</div>
-			    	</div>
-			    </div>
-			    <div class="col-sm-12">
-			    	<div class="form-group">
-				        <label for="range_id" class="col-sm-3 control-label">Choix du modèle de gamme</label>
-				        <div class="col-sm-9">
-				             <div class="input-group col-sm-12">
-				                <select name="range_id" class="form-control templateRanges">
-									<option selected disabled>Sélectionner un modèle</option>
-									{{#each this.data.templateRanges}}
-									<option value="{{id}}">{{name}}</option>
-									{{/each}}
-								</select>
-				            </div>
-				        </div>
-			    	</div>
-			    </div>
-			    <div class="col-sm-10 col-sm-offset-1">
-			    	<div class="form-group">
-						<div class="rangePanel"></div>
-			    	</div>
-			    </div>				
-			</div>
-		</div>
-	</div>	
-</div>

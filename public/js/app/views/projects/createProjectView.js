@@ -8,31 +8,31 @@ define(["backbone",
         "models/project",
         "models/customer",
         "hbs!/js/app/templates/projects/createProjectForm"],
-        function (Backbone, Radio, Marionette, $, _,  
-                  BaseItemView, 
-                  ValidationBehavior, 
-                  ProjectModel, CustomerModel, 
+        function (Backbone, Radio, Marionette, $, _,
+                  BaseItemView,
+                  ValidationBehavior,
+                  ProjectModel, CustomerModel,
                   CreateProjectFormTemplate) {
             "use strict";
 
             var CreateProjectView = BaseItemView.extend({
                 template: CreateProjectFormTemplate,
                 model : new ProjectModel(),
-                
+
                 behaviors: {
                     ValidationBehavior: {
                         behaviorClass: ValidationBehavior
                     }
                 },
-                
+
                 events : {
                     'submit form' : 'handleProjectSave',
                     'click input[name="customer_choice"]' : 'showCustomerForm'
                 },
-                
+
                 initialize: function (options) {
                     var that = this;
-                    
+
                     BaseItemView.prototype.initialize.apply(this, arguments);
 
                     this.channel = Radio.channel('Projects');
@@ -42,7 +42,7 @@ define(["backbone",
 
                     this.render();
                 },
-                
+
                 onShow : function () {
                     this.initFormValidation();
                 },
@@ -72,12 +72,12 @@ define(["backbone",
 
                 showCustomerForm : function (e) {
                     switch ($(e.currentTarget).val()) {
-                        case 'newCustomer' : 
+                        case 'newCustomer' :
                             $('#newCustomerForm').removeClass('hidden');
                             $('#oldCustomerForm').addClass('hidden');
                             break;
 
-                        case 'oldCustomer' : 
+                        case 'oldCustomer' :
                             $('#oldCustomerForm').removeClass('hidden');
                             $('#newCustomerForm').addClass('hidden');
                             break;
@@ -86,16 +86,16 @@ define(["backbone",
 
                 handleProjectSave : function (e) {
                     $("#message").find('.alert').addClass("hide").empty();
-                    
+
                     e.preventDefault();
-                    
+
                     var that = this,
                         $form = $(e.currentTarget),
                         dataCustomer = {},
                         dataProject = {};
 
                     $form.find('input, textarea, button, select').attr('disabled', 'disabled');
-                    
+
                     dataProject = {
                         'name' : $form.find('#name').val()
                     };
@@ -108,8 +108,8 @@ define(["backbone",
                             'adr_street' : $form.find('#adr_street').val(),
                             'adr_zipcode' : $form.find('#adr_zipcode').val(),
                             'adr_city' : $form.find('#adr_city').val()
-                        };                    
-                        
+                        };
+
                         this.customerChannel
                             .request('saveCustomer', dataCustomer)
                             .then(function(customerModel){
@@ -127,7 +127,7 @@ define(["backbone",
                             function(response){
                                 $form.find('.alert').text('Erreur : ' + response.responseJSON[0]).removeClass('hide');
                                 $form.find('input, textarea, button, select').attr('disabled', false);
-                            });    
+                            });
                     } else {
                         dataCustomer = {
                             'id' : $form.find('#customer_id').val()

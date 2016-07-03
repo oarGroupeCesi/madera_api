@@ -10,7 +10,7 @@ use Auth;
 use Validator;
 use App\Models\Module;
 use App\Models\Modulenature;
-use App\Models\Project;
+use App\Models\Product;
 use \Exception;
 
 class ModuleController extends Controller
@@ -45,7 +45,7 @@ class ModuleController extends Controller
             'width'           => 'required|integer',
             'quantity'        => 'required|integer',
             'modulenature_id' => 'required|integer',
-            'project_id'      => 'required|integer',
+            'product_id'      => 'required|integer',
         ]);
 
         if ($validator->fails()) {
@@ -59,23 +59,23 @@ class ModuleController extends Controller
             $modulenature = Modulenature::findOrFail($request->input('modulenature_id'));
 
         } catch (Exception $e) {
-            
+
             return response()->json('La nature de module n\'existe pas.', 404);
 
         }
 
         try {
 
-            $project = Project::findOrFail($request->input('project_id'));
+            $product = Product::findOrFail($request->input('product_id'));
 
         } catch (Exception $e) {
-            
-            return response()->json('Le projet n\'existe pas.', 404);
+
+            return response()->json('Le produit n\'existe pas.', 404);
 
         }
 
         $module = Module::create($request->all());
-        
+
         return $module;
     }
 
@@ -117,7 +117,7 @@ class ModuleController extends Controller
             'width'           => 'integer',
             'quantity'        => 'integer',
             'modulenature_id' => 'integer',
-            'project_id'      => 'integer',
+            'product_id'      => 'integer',
         ]);
 
         if ($validator->fails()) {
@@ -130,20 +130,20 @@ class ModuleController extends Controller
                 $modulenature = Modulenature::findOrFail($request->input('modulenature_id'));
 
             } catch (Exception $e) {
-                
+
                 return response()->json('La nature de module n\'existe pas.', 404);
 
             }
         }
 
-        if ($request->input('project_id')) {
+        if ($request->input('product_id')) {
             try {
 
-                $project = Project::findOrFail($request->input('project_id'));
+                $product = Product::findOrFail($request->input('product_id'));
 
             } catch (Exception $e) {
-                
-                return response()->json('Le projet n\'existe pas.', 404);
+
+                return response()->json('Le produit n\'existe pas.', 404);
 
             }
         }

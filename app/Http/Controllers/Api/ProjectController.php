@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Range;
 use App\Models\Customer;
 use App\Models\User;
+use App\Models\ModuleNature;
 use Validator;
 use Exception;
 use Auth;
@@ -83,13 +85,17 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        $project = Project::with(['products' => function ($query) {
-            $query->join('ranges','ranges.id', '=', 'products.range_id')
-            ->select('products.*', 'ranges.*', 'products.created_at AS p_created_at');
-        }, 'modules' => function($query) {
-            $query->join('moduleNatures', 'moduleNatures.id', '=', 'modules.modulenature_id')
-            ->select('modules.*', 'moduleNatures.*', 'modules.name AS m_name', 'modules.id as m_id');
-        }])->where('id', $id)->first();
+
+        $project = Project::with('products')->findOrFail($id);
+
+        foreach ($project->products as $product) {
+            $product->range = Range::findOrFail($product->range_id);
+            $product->modules = $product->modules()->get();
+
+            foreach ($product->modules as $module) {
+                $module->moduleNature = ModuleNature::findOrFail($module->modulenature_id);
+            }
+        }
 
         if (!$project) {
             return response()->json('Le projet n\'existe pas.', 404);
@@ -149,13 +155,19 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $project = Project::find($id);
 
-        if (!$project) {
-            return response()->json('Le projet n\'existe pas.', 404);
+        if(isset($id) && !empty($id) && is_numeric($id)) {
+            $project = Project::find($id);
+
+            if (!$project) {
+                return response()->json('Le projet n\'existe pas.', 404);
+            }
+
+            $project->delete();
+
+            return 'Le projet a bien été supprimé.';
         }
-        $project->delete();
 
-        return 'Le projet a bien été supprimé.';
+
     }
 }

@@ -11,7 +11,7 @@ define(["marionette",
 
             initialize : function () {
                 this.channel = Radio.channel('Modules');
-                
+
                 this.channel.reply('getModules', this.getModules);
                 this.channel.reply('getModule', this.getModule);
                 this.channel.reply('saveModule', this.saveModule);
@@ -19,31 +19,31 @@ define(["marionette",
 
             getModules : function () {
                 var modules = new ModulesCollection();
-                
+
                 App.trigger('ajax:setTokenHeaders');
 
                 return modules.fetch();
             },
 
-            getModule : function (projectId) {
+            getModule : function (productId) {
                 var modules = new ModulesCollection();
-                
+
                 App.trigger('ajax:setTokenHeaders');
 
                 return modules.fetch({
-                    'project_id' : projectId
+                    'product_id' : productId
                 });
             },
 
             saveModule : function (data) {
                 var moduleModel = new ModuleModel(data);
-                
+
                 if (!data) {
                     return;
                 }
-                
+
                 App.trigger('ajax:setTokenHeaders');
-                
+
                 return moduleModel.save();
             }
         });

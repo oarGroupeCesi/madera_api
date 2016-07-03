@@ -47,12 +47,23 @@
                 });
             },
 
+            editProject : function (projectId) {
+                App.views.appLayoutView.setBodyClass(['headerEdition', 'editionProjet']);
+
+                this.projectId = parseInt(projectId);
+
+                this.initProject({
+                    step : "step1"
+                });
+            },
+
             viewProject : function (projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'vueProjet']);
 
                 var that = this;
+                this.projectId = parseInt(projectId);
 
-                this.channel.request("getProject", projectId)
+                this.channel.request("getProject", this.projectId)
                     .then(function(projectModel) {
                         App.views.viewProjectView = new DisplayProjectView({
                             'model' : new ProjectModel(projectModel)
@@ -67,17 +78,18 @@
             addProductsToProject : function (projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'creationProduits']);
 
-                this.projectId = projectId;
+                this.projectId = parseInt(projectId);
 
                 this.initProject({
                     step : "step2"
                 });
             },
 
-            addModulesToProject : function (projectId) {
+            addModulesToProductOfProject : function (projectId, productId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'creationModules']);
 
-                this.projectId = projectId;
+                this.projectId = parseInt(projectId);
+                this.productId = parseInt(productId);
 
                 this.initProject({
                     step : "step3"
@@ -87,7 +99,7 @@
             previewCustomerProject : function(projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'apercuProjetFini']);
 
-                this.projectId = projectId;
+                this.projectId = parseInt(projectId);
 
                 this.initProject({
                     step : "step4"
@@ -129,11 +141,20 @@
                                         'title' : 'Etape 1 : Identification du projet'
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
-                                    App.views.stepView = new CreateProjectView({
-                                        'customers' : that.customersCollection
+
+                                    that.channel
+                                        .request('getProjects')
+                                        .then(function(projects){
+                                            that.projectsCollection = new ProjectsCollection(projects);
+
+                                            App.views.stepView = new CreateProjectView({
+                                                'customers' : that.customersCollection,
+                                                'model'     : that.getProject()
+                                            });
+                                            App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                     });
-                                    App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
-                                });
+
+                            });
 
                             break;
                         }
@@ -175,8 +196,9 @@
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
                                     App.views.stepView = new CreateModuleView({
-                                        'projectId' : that.projectId,
-                                        'modulesNatures' : that.modulesNaturesCollection
+                                        'projectId'         : that.projectId,
+                                        'productId'         : that.productId,
+                                        'modulesNatures'    : that.modulesNaturesCollection
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                 });
@@ -208,6 +230,16 @@
                     }
                 }
 
+            },
+
+            getProject : function () {
+                var that = this;
+
+                if(this.projectsCollection.length && this.projectId) {
+                    return this.projectsCollection.findWhere({id:this.projectId});
+                }
+
+                return new ProjectModel();
             }
         });
 

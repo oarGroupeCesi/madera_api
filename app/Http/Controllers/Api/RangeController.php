@@ -38,8 +38,8 @@ class RangeController extends Controller
         $validator = Validator::make($request->all(), [
             'exterior_finish' => 'required|in:wood,roughcast',
             'insulating' => 'required|in:synthetic,natural,biological',
-            'top' => 'required|in:roof tiles,slates,thatch',
-            'configuration' => 'required|in:Without angle,With closing angle,With opening angle',
+            'top' => 'required|in:roof_tiles,slates,thatch',
+            'configuration' => 'required|in:without_angle,with_closing_angle,with_opening_angle',
             'template' => 'required|boolean',
         ]);
 
@@ -48,7 +48,7 @@ class RangeController extends Controller
         }
 
         $range = Range::create($request->all());
-        
+
         return $range;
     }
 
@@ -86,8 +86,8 @@ class RangeController extends Controller
         $validator = Validator::make($request->all(), [
             'exterior_finish' => 'in:wood,roughcast',
             'insulating' => 'in:synthetic,natural,biological',
-            'top' => 'in:roof tiles,slates,thatch',
-            'configuration' => 'in:Without angle,With closing angle,With opening angle',
+            'top' => 'in:roof_tiles,slates,thatch',
+            'configuration' => 'in:without_angle,with_closing_angle,with_opening_angle',
             'template' => 'boolean',
         ]);
 

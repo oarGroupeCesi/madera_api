@@ -37,27 +37,7 @@
 						{{#xif " this.data.projects.length "}}
 							{{#each data.projects}}
 							<a href="#projects/{{id}}" class="list-group-item">
-								{{#xif " this.status == 'draft' "}}
-									<span class="badge badge-warning">Brouillon</span>
-								{{else}}
-									{{#xif " this.status == 'accepted' "}}
-										<span class="badge badge-success">Accepté</span>
-									{{else}}
-										{{#xif " this.status == 'pending' "}}
-											<span class="badge badge-primary">En cours</span>
-										{{else}}
-											{{#xif " this.status == 'refused' "}}
-												<span class="badge badge-danger">Refusé</span>
-											{{else}}
-												{{#xif " this.status == 'command' "}}
-													<span class="badge badge-default">Commandé</span>
-												{{else}}
-													<span class="badge badge-info">Facturé</span>
-												{{/xif}}
-											{{/xif}}
-										{{/xif}}
-									{{/xif}}
-								{{/xif}}
+								<span class="badge badge-{{i18n "app.projects.status" status "color"}}">{{i18n "app.projects.status" status "name"}}</span>
 								Devis n°{{id}} : {{name}}
 							</a>
 							{{/each}}

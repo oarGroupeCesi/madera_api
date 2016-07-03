@@ -61,12 +61,4 @@ class Project extends Model
     {
         return $this->hasMany('App\Models\Product');
     }
-
-    /**
-     * Get the modules for the project.
-     */
-    public function modules()
-    {
-        return $this->hasMany('App\Models\Module');
-    }
 }

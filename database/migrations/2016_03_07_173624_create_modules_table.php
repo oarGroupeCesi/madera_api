@@ -20,8 +20,8 @@ class CreateModulesTable extends Migration
             $table->integer('quantity');
             $table->integer('modulenature_id')->unsigned()->nullable();
             $table->foreign('modulenature_id')->references('id')->on('modulenatures');
-            $table->integer('project_id')->unsigned()->nullable();
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->integer('product_id')->unsigned()->nullable();
+            $table->foreign('product_id')->references('id')->on('products');
             $table->timestamps();
         });
     }

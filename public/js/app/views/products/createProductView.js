@@ -11,35 +11,34 @@ define(["backbone",
         "models/product",
         "models/range",
         "hbs!/js/app/templates/products/createProductForm"],
-        function (Backbone, Radio, Marionette, $, _, tooltip, 
-                  BaseLayoutView, 
-                  ValidationBehavior, CollapseView, 
-                  ProjectModel, ProductModel, RangeModel, 
+        function (Backbone, Radio, Marionette, $, _, tooltip,
+                  BaseLayoutView,
+                  ValidationBehavior, CollapseView,
+                  ProjectModel, ProductModel, RangeModel,
                   CreateProductFormTemplate) {
             "use strict";
 
             var CreateProductView = BaseLayoutView.extend({
                 template: CreateProductFormTemplate,
                 model : new ProjectModel(),
-                
+
                 behaviors: {
                     ValidationBehavior: {
                         behaviorClass: ValidationBehavior
                     }
                 },
-                
+
                 events : {
                     'change .templateRanges'    : 'showCollapsableTab',
                     'submit form'               : 'handleProductSave',
                     'click .toggleArrow'        : 'rotateArrow',
                     'mouseover .theTooltip'     : 'showTooltip',
-                    'click #addAnotherProduct'  : 'addAnotherProduct',
-                    'click .deleteProduct'      : 'deleteProduct'
+                    'click .back'               : 'RedirectToPreviousStep'
                 },
-                
+
                 initialize: function (options) {
                     var that = this;
-                    
+
                     if(!options.templateRanges || !options.projectId) {
                         return false;
                     }
@@ -48,13 +47,13 @@ define(["backbone",
 
                     this.channel = Radio.channel('Products');
                     this.rangeChannel = Radio.channel('Ranges');
-                    
+
                     this.templateRanges = options.templateRanges;
                     this.projectId = options.projectId;
 
                     this.render();
                 },
-                
+
                 onBeforeRender : function () {
                     this.data.templateRanges = this.templateRanges.toJSON();
                 },
@@ -83,7 +82,7 @@ define(["backbone",
 
                 handleProductSave : function (e) {
                     $("#message").find('.alert').addClass("hide").empty();
-                    
+
                     e.preventDefault();
 
 
@@ -120,10 +119,10 @@ define(["backbone",
                             };
 
                         });
-                        
+
                         $form.find('input, textarea, button, select').attr('disabled', 'disabled');
-                        
-                        $.each(datas.dataRange, function(i, dataRange){                        
+
+                        $.each(datas.dataRange, function(i, dataRange){
                             that.rangeChannel
                                 .request('saveRange', dataRange)
                                 .then(function(rangeModel){
@@ -134,7 +133,14 @@ define(["backbone",
                                         .request('saveProduct', datas.dataProduct[i])
                                         .then(function(productModel){
                                             that.productModel = new ProductModel(productModel);
-                                            Backbone.history.navigate("projects/edit/" + that.projectId + "/step2/modules/edit", {trigger:true});
+                                            Backbone.history.navigate(
+                                                "projects/edit/"
+                                                + that.projectId
+                                                + "/step2/product/"
+                                                + that.productModel.id
+                                                + "/modules/edit",
+                                                {trigger:true}
+                                            );
                                         },
                                         function(response){
                                             that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
@@ -147,20 +153,14 @@ define(["backbone",
                     }
                 },
 
-                addAnotherProduct : function (e) {
+                RedirectToPreviousStep : function (e) {
                     e.preventDefault();
 
-                    if(!$('#products .product-contain:last-child').find('.panel-group').length) {
-                        return false;
-                    }
-                    
-                    var $productsContent = $('#products-hidden').html(),
-                        $test = $($productsContent);
-
-                    $('#products').append($productsContent);
-                    $('#products').find('.product-label > .number').last().text($('#products .product-contain').length);
-                    $('.rangePanel').last().empty();
-                    $("body").animate({ scrollTop: $(document).height()}, 1600);
+                    Backbone.history.navigate(
+                        "projects/edit/"
+                        + that.projectId,
+                        {trigger:true}
+                    );
                 },
 
                 showCollapsableTab : function (e) {
@@ -187,12 +187,6 @@ define(["backbone",
                     this.getRegion("listProduct").show(App.views.collapseView);
                 },
 
-                deleteProduct : function (e) {
-                    e.preventDefault();
-
-                    $(e.currentTarget).parents('.product-contain').remove();
-                },
-
                 rotateArrow : function (e) {
                     e.preventDefault();
                     $(e.currentTarget).children('i').toggleClass("toggle");
@@ -200,7 +194,7 @@ define(["backbone",
 
                 showSuccessMessage : function($form, successMessage) {
                     this.enableForm($form);
-                    
+
                     $('html, body').animate({scrollTop : 0}, 500);
 
                     $form.find('.alert').fadeIn(600, function() {
@@ -226,7 +220,7 @@ define(["backbone",
                     });
                 },
 
-                enableForm : function($form) {  
+                enableForm : function($form) {
                     $form.find('input:not([readonly]), textarea, button, select:not(".readonly")').removeAttr('disabled');
                 },
 

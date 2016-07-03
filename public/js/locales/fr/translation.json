@@ -23,12 +23,30 @@
         "logout" : "Déconnexion",
         "projects" : {
             "status" : {
-                "draft" : "Brouillon",
-                "accepted" : "Accepté",
-                "pending" : "En cours",
-                "refused" : "Refusé",
-                "command" : "Commandé",
-                "billing" : "Facturé"
+                "draft" : {
+                    "name" : "Brouillon",
+                    "color" : "warning"
+                },
+                "accepted" : {
+                    "name" : "Accepté",
+                    "color" : "success"
+                },
+                "pending" : {
+                    "name" : "En cours",
+                    "color" : "primary"
+                },
+                "refused" : {
+                    "name" : "Refusé",
+                    "color" : "danger"
+                },
+                "command" : {
+                    "name" : "Commandé",
+                    "color" : "default"
+                },
+                "billing" : {
+                    "name" : "Facturé",
+                    "color" : "info"
+                }
             }
         },
         "ranges" : {

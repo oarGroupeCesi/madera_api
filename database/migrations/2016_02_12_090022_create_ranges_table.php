@@ -25,14 +25,14 @@ class CreateRangesTable extends Migration
                 'biological',
             ]);
             $table->enum('top', [
-                'roof tiles',
+                'roof_tiles',
                 'slate',
                 'thatch',
             ]);
             $table->enum('configuration', [
-                'Without angle',
-                'With closing angle',
-                'With opening angle',
+                'without_angle',
+                'with_closing_angle',
+                'with_opening_angle',
             ]);
             $table->boolean('template')->default(false);
             $table->timestamps();

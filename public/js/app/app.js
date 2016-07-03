@@ -72,11 +72,12 @@ define([
             };
 
             App.router.processAppRoutes(App.controllers.projectsController, {
-                "projects/create"                               : "addProject",
-                "projects/:projectId"                           : "viewProject",
-                "projects/edit/:projectId/step1/products/edit"  : "addProductsToProject",
-                "projects/edit/:projectId/step2/modules/edit"   : "addModulesToProject",
-                "projects/edit/:projectId/step3/preview"        : "previewCustomerProject"
+                "projects/create"                                                   : "addProject",
+                "projects/edit/:projectId"                                          : "editProject",
+                "projects/edit/:projectId/step1/products/edit"                      : "addProductsToProject",
+                "projects/edit/:projectId/step2/product/:productId/modules/edit"    : "addModulesToProductOfProject",
+                "projects/edit/:projectId/step3/preview"                            : "previewCustomerProject",
+                "projects/:projectId"                                               : "viewProject"
             });
 
             if (Backbone.history) {

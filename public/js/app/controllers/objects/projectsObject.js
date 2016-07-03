@@ -12,9 +12,10 @@ define(["marionette",
             initialize : function () {
                 this.channel = Radio.channel('Projects');
 
-                this.channel.reply('getProjects', this.getProjects);
-                this.channel.reply('getProject', this.getProject);
-                this.channel.reply('saveProject', this.saveProject);
+                this.channel.reply('getProjects', this.getProjects.bind(this));
+                this.channel.reply('getProject', this.getProject.bind(this));
+                this.channel.reply('saveProject', this.saveProject.bind(this));
+                this.channel.reply('deleteProject', this.deleteProject.bind(this));
             },
 
             getProjects : function () {
@@ -45,6 +46,24 @@ define(["marionette",
                 App.trigger('ajax:setTokenHeaders');
 
                 return projectModel.save();
+            },
+
+            deleteProject : function(project, options) {
+                var deferred = new $.Deferred(),
+                    defaults = {
+                        wait: true,
+                        success : function (model, response) {
+                            deferred.resolve(model, response);
+                        },
+                        error : function (model, response) {
+                            deferred.reject(model, response);
+                        }
+                    },
+                    options = $.extend({}, defaults, options);
+
+                project.destroy(options);
+
+                return deferred.promise();
             }
         });
 
