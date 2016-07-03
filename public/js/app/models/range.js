@@ -12,7 +12,12 @@ define(["backbone"],
                 "configuration" : null,
                 "template" : null
             },
-            urlRoot: "/api/range"
+
+            urlRoot: "/api/range",
+
+            toJSON : function () {
+                return JSON.parse(JSON.stringify(this.attributes));
+            }
         });
 
         return Range;

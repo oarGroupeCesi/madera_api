@@ -13,11 +13,27 @@
 			possibles à la construction d'un produit.</p>
 		</div>
 
+		{{#if data.modules}}
+		<div class="col-sm-12">
+			<div id="savedProducts">
+				<h3><small>Modules précédemment enregistrés : </small></h3>
+				{{#each data.modules}}
+					<div class="well well-sm well-primary clearfix">
+						<div class="col-sm-11">
+							<b class="primary">{{name}}</b> — de type {{moduleNature.name}} — <small>créé le {{formated_date created_at}}</small>
+						</div>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+		{{/if}}
+
 		<div id="modules" class="col-sm-12">
+			{{#unless data.modules}}
 			<div class="module-contain col-sm-12">
 				<div class="row">
 				    <div class="col-sm-2">
-				    	<p class="module-label">Module n°<span class="number">1</span></p>
+				    	<p class="module-label">Module n°<span class="number">{{data.numberOfModules}}</span></p>
 				    </div>
 				    <div class="col-sm-12">
 				    	<div class="row form-group">
@@ -42,11 +58,12 @@
 				    </div>
 				</div>
 			</div>
+			{{/unless}}
 		</div>
 
 		<div id="footerForm" class="col-sm-4 col-sm-offset-4">
 			<div class="form-group center-block">
-				<button type="button" id="addAnotherModule" class="btn btn-default"><i class="fa fa-plus"></i> Ajouter un autre module</button>
+				<button type="button" id="addAnotherModule" class="btn btn-success"><i class="fa fa-plus"></i> Ajouter un autre module</button>
 			</div>
 		</div>
 

@@ -25,8 +25,6 @@ define(["backbone",
 
                     BaseItemView.prototype.initialize.apply(this, arguments);
 
-                    console.log(this.model);
-
                     this.render();
                 },
 

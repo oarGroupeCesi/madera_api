@@ -142,6 +142,65 @@ p.bg-info {
     font-size: 14px;
 }
 
+.tooltip .tooltip-inner {
+    white-space: nowrap;
+}
+
+.primary {
+    color : #00B16A;
+}
+
+
+/**
+ * MODAL
+ * -----------------------------------------------------------------------------
+ */
+@media (min-width: 768px) {
+    .modal .modal-dialog {
+        width: 800px;
+        margin: 30px auto;
+    }
+}
+.modal .modal-dialog .modal-content .modal-header {
+    padding: 18px 30px;
+    background: #ffffff;
+    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #ffffff), color-stop(47%, #f6f6f6), color-stop(100%, #ededed));
+    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+    background: -o-radial-gradient(center, ellipse cover, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+    background: radial-gradient(ellipse at center, #ffffff 0%, #f6f6f6 47%, #ededed 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed', GradientType=1);
+    -webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.modal .modal-dialog .modal-content .modal-body {
+    padding: 25px 30px 0 30px;
+    min-height: 100px;
+}
+.modal .modal-dialog .modal-content .modal-footer {
+    padding: 18px 25px;
+    text-align: center;
+}
+.modal .modal-dialog .modal-content .modal-title {
+    color: #007f7e;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: normal;
+    font-style: normal;
+    text-transform: uppercase;
+}
+.modal .modal-dialog .modal-content .modal-title:before {
+    content: "";
+}
+.modal .modal-lg .modal-content {
+    width:900px;
+}
+
 
 /**
  * ICONS
@@ -498,7 +557,7 @@ body.login header.nav {
     border-color: #03A678;
 }
 
-.product-contain {
+.product-contain, .module-contain {
     background-color: #eeeeee;
     border-radius: 3px;
     margin: 4px;
@@ -574,4 +633,22 @@ body.login header.nav {
 .table.table-bordered .total-price {
     background-color: #00B16A;
     color: #fff;
+}
+
+#savedProducts {
+    background-color: #1A2229;
+    color: #fff;
+    padding: 15px;
+    margin: 0 0 10px 0;
+}
+#savedProducts h3 small {
+    font-weight: 800;
+}
+
+#savedProducts .well-primary {
+    background-color: rgba(255,255,255,0.1);
+}
+
+#savedProducts .well-primary > small {
+    color: #00B16A;
 }

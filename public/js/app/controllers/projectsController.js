@@ -143,13 +143,13 @@
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
 
                                     that.channel
-                                        .request('getProjects')
-                                        .then(function(projects){
-                                            that.projectsCollection = new ProjectsCollection(projects);
+                                        .request('getProject', that.projectId)
+                                        .then(function(project){
+                                            that.projectModel = (project.id) ? new ProjectModel(project) : new ProjectModel();
 
                                             App.views.stepView = new CreateProjectView({
                                                 'customers' : that.customersCollection,
-                                                'model'     : that.getProject()
+                                                'model'     : that.projectModel
                                             });
                                             App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                     });
@@ -172,12 +172,19 @@
                                         'title' : 'Etape 2 : Conception de produit(s)'
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
-                                    App.views.stepView = new CreateProductView({
-                                        'projectId' : that.projectId,
-                                        'templateRanges' : that.rangesCollection.getTemplateRanges()
+
+                                    that.channel
+                                        .request('getProject', that.projectId)
+                                        .then(function(project){
+                                            that.projectModel = (project.id) ? new ProjectModel(project) : new ProjectModel();
+
+                                            App.views.stepView = new CreateProductView({
+                                                'templateRanges'    : that.rangesCollection.getTemplateRanges(),
+                                                'model'             : that.projectModel
+                                            });
+                                            App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                     });
-                                    App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
-                                });
+                            });
 
                             break;
                         }
@@ -195,12 +202,19 @@
                                         'title' : 'Etape 3 : Conception de module(s)'
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
-                                    App.views.stepView = new CreateModuleView({
-                                        'projectId'         : that.projectId,
-                                        'productId'         : that.productId,
-                                        'modulesNatures'    : that.modulesNaturesCollection
+
+                                    that.channel
+                                        .request('getProject', that.projectId)
+                                        .then(function(project){
+                                            that.projectModel = (project.id) ? new ProjectModel(project) : new ProjectModel();
+
+                                            App.views.stepView = new CreateModuleView({
+                                                'modulesNatures'    : that.modulesNaturesCollection,
+                                                'model'             : that.projectModel,
+                                                'productId'         : that.productId
+                                            });
+                                            App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                     });
-                                    App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                 });
 
                             break;
@@ -233,8 +247,6 @@
             },
 
             getProject : function () {
-                var that = this;
-
                 if(this.projectsCollection.length && this.projectId) {
                     return this.projectsCollection.findWhere({id:this.projectId});
                 }

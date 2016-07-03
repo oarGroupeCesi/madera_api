@@ -3,15 +3,20 @@ define(["backbone",
         "marionette",
         "jquery",
         "underscore",
+        "i18n",
         "baseLayoutView",
-        "views/behaviors/validationBehavior",
         "models/module",
+        "views/behaviors/validationBehavior",
+        "views/elements_html/modal/modalLayoutView",
         "views/modules/renderModuleFormAfterSelectModuleTypeView",
+        "views/modules/stepChoiceView",
         "hbs!/js/app/templates/modules/createModuleForm"],
-        function (Backbone, Radio, Marionette, $, _,
+        function (Backbone, Radio, Marionette, $, _, I18n,
                   BaseLayoutView,
+                  ModuleModel,
                   ValidationBehavior,
-                  ModuleModel, RenderModuleFormView, CreateModuleFormTemplate) {
+                  ModalLayoutView, RenderModuleFormView, StepChoiceView,
+                  CreateModuleFormTemplate) {
             "use strict";
 
             var CreateModuleView = BaseLayoutView.extend({
@@ -29,13 +34,14 @@ define(["backbone",
                     'submit form'               : 'handleModuleSave',
                     'mouseover .theTooltip'     : 'showTooltip',
                     'click #addAnotherModule'   : 'addAnotherModule',
-                    'click .deleteModule'       : 'deleteModule'
+                    'click .deleteModule'       : 'deleteModule',
+                    'click .back'               : 'redirectToPreviousStep'
                 },
 
                 initialize: function (options) {
                     var that = this;
 
-                    if(!options.modulesNatures || !options.projectId || !options.productId) {
+                    if(!options.modulesNatures || !options.productId) {
                         return false;
                     }
 
@@ -44,14 +50,11 @@ define(["backbone",
                     this.channel = Radio.channel('Modules');
 
                     this.modulesNatures = options.modulesNatures;
-                    this.projectId = options.projectId;
                     this.productId = options.productId;
 
-                    this.render();
-                },
+                    this.createStepChoiceModal = null;
 
-                onBeforeRender : function () {
-                    this.data.modulesNatures = this.modulesNatures.toJSON();
+                    this.render();
                 },
 
                 onShow : function () {
@@ -111,24 +114,53 @@ define(["backbone",
 
                     $form.find('input, textarea, button, select').attr('disabled', 'disabled');
 
-                    $.each(dataModule, function(i, moduleModel){
-                        that.channel
-                            .request('saveModule', moduleModel)
-                            .then(function(module){
-                                that.moduleModel = new ModuleModel(module);
-                                Backbone.history.navigate("projects/edit/" + that.projectId + "/step3/preview", {trigger:true});
-                            },
-                            function(response){
-                                that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
-                            });
-                    });
+                    if(dataModule.length) {
+                        $.each(dataModule, function(i, moduleModel){
+                            that.channel
+                                .request('saveModule', moduleModel)
+                                .then(function(module){
+                                    that.moduleModel = new ModuleModel(module);
+                                },
+                                function(response){
+                                    that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
+                                });
+                        });
+                    }
 
+                    that.launchStepChoiceModal();
+                },
+
+                launchStepChoiceModal: function () {
+                    var that = this,
+                        options = {
+                            "title": "Faites votre choix",
+                            "class": "create-clinical-case",
+                            "body": new StepChoiceView({
+                                'model' : this.model
+                            }),
+                            "close": false,
+                            "closeFooterButton": false
+                        };
+
+                    this.createStepChoiceModal = new ModalLayoutView(options);
+                    this.createStepChoiceModal.showModal();
+                    this.enableForm(this.$el.find('form'));
+                },
+
+                onDestroy : function () {
+                    this.destroyModal();
+                },
+
+                destroyModal : function () {
+                    if (this.createStepChoiceModal) {
+                        this.createStepChoiceModal.closeModal();
+                    }
                 },
 
                 addAnotherModule : function (e) {
                     e.preventDefault();
 
-                    if(!$('#modules .module-contain:last-child').find('.input-module-group').length) {
+                    if(!this.getModulesOfProduct().length && !$('#modules .module-contain:last-child').find('.input-module-group').length) {
                         return false;
                     }
 
@@ -136,7 +168,9 @@ define(["backbone",
                         $test = $($modulesContent);
 
                     $('#modules').append($modulesContent);
-                    $('#modules').find('.module-label > .number').last().text($('#modules .module-contain').length);
+                    $('#modules').find('.module-label > .number').last().text(
+                        $('#modules .module-contain').length + this.getModulesOfProduct().length
+                    );
                     $('.moduleInfos').last().empty();
                     $("body").animate({ scrollTop: $(document).height()}, 1600);
                 },
@@ -170,6 +204,14 @@ define(["backbone",
                     this.getRegion("modules").show(App.views.renderModuleFormView);
                 },
 
+                redirectToPreviousStep : function (e) {
+                    e.preventDefault();
+
+                    Backbone.history.navigate(
+                        "projects/edit/"+ this.model.id + "/step1/products/edit", {trigger:true}
+                    );
+                },
+
                 showErrorMessage : function ($form, response) {
                     $form.find('.alert').fadeIn(600, function() {
                         $(this).addClass('alert-danger')
@@ -192,6 +234,19 @@ define(["backbone",
                     return Math.floor((1 + Math.random()) * 0x10000)
                     .toString(16)
                     .substring(1);
+                },
+
+                getModulesOfProduct : function () {
+                    return this.model.get('products').findWhere({id:this.productId}).get('modules');
+                },
+
+                serializeData : function () {
+                    this.data.modulesNatures = this.modulesNatures.toJSON();
+                    this.data.modules = this.getModulesOfProduct().toJSON();
+                    this.data.numberOfModules = this.getModulesOfProduct().length + 1;
+
+                    var viewData = {data: this.data};
+                    return _.extend(viewData, BaseLayoutView.prototype.serializeData.apply(this, arguments));
                 }
             });
 

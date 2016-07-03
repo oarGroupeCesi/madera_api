@@ -26,8 +26,9 @@ define(["backbone",
                 },
 
                 events : {
-                    'submit form' : 'handleProjectSave',
-                    'click input[name="customer_choice"]' : 'showCustomerForm'
+                    'submit form'                           : 'handleProjectSave',
+                    'click input[name="customer_choice"]'   : 'showCustomerForm',
+                    'click .next'                           : 'redirectToNextStep'
                 },
 
                 initialize: function (options) {
@@ -45,10 +46,6 @@ define(["backbone",
 
                 onShow : function () {
                     this.initFormValidation();
-                },
-
-                onBeforeRender : function () {
-                    this.data.customers = this.customersCollection.toJSON();
                 },
 
                 initFormValidation : function (custumerRadio) {
@@ -96,9 +93,12 @@ define(["backbone",
 
                     $form.find('input, textarea, button, select').attr('disabled', 'disabled');
 
-                    dataProject = {
-                        'name' : $form.find('#name').val()
-                    };
+                    if(this.model.id) {
+                        dataProject.id = this.model.id;
+                        dataProject.user_id = this.model.get('user_id');
+                    }
+
+                    dataProject.name = $form.find('#name').val();
 
                     if($('input[name="customer_choice"]:checked').val() == 'newCustomer') {
                         dataCustomer = {
@@ -113,7 +113,6 @@ define(["backbone",
                         this.customerChannel
                             .request('saveCustomer', dataCustomer)
                             .then(function(customerModel){
-                                console.log('in');
                                 that.customerModel = new CustomerModel(customerModel);
                                 dataProject.customer_id = that.customerModel.get('id');
 
@@ -146,6 +145,19 @@ define(["backbone",
                             });
                     }
 
+                },
+
+                redirectToNextStep : function (e) {
+                    e.preventDefault();
+
+                    Backbone.history.navigate("projects/edit/"+this.model.id+"/step1/products/edit" , {trigger:true});
+                },
+
+                serializeData : function () {
+                    this.data.customers = this.customersCollection.toJSON();
+
+                    var viewData = {data: this.data};
+                    return _.extend(viewData, BaseLayoutView.prototype.serializeData.apply(this, arguments));
                 }
             });
 

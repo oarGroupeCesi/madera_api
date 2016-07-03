@@ -50,7 +50,6 @@
             }
         },
         "ranges" : {
-            "title" : "Gamme associée",
             "exterior_finish" : {
                 "label" : "Finitions extérieures",
                 "enum" : {
@@ -82,6 +81,9 @@
                     "with_opening_angle" : "Avec angle ouvrant"
                 }
             }
+        },
+        "modules" : {
+            "title" : "Modules associés"
         }
     }
 }

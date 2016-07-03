@@ -20,7 +20,6 @@ define(["backbone",
 
             var CreateProductView = BaseLayoutView.extend({
                 template: CreateProductFormTemplate,
-                model : new ProjectModel(),
 
                 behaviors: {
                     ValidationBehavior: {
@@ -33,13 +32,14 @@ define(["backbone",
                     'submit form'               : 'handleProductSave',
                     'click .toggleArrow'        : 'rotateArrow',
                     'mouseover .theTooltip'     : 'showTooltip',
-                    'click .back'               : 'RedirectToPreviousStep'
+                    'click .back'               : 'redirectToPreviousStep',
+                    'click .next'               : 'redirectToNextStep'
                 },
 
                 initialize: function (options) {
                     var that = this;
 
-                    if(!options.templateRanges || !options.projectId) {
+                    if(!options.templateRanges) {
                         return false;
                     }
 
@@ -49,17 +49,13 @@ define(["backbone",
                     this.rangeChannel = Radio.channel('Ranges');
 
                     this.templateRanges = options.templateRanges;
-                    this.projectId = options.projectId;
 
                     this.render();
                 },
 
-                onBeforeRender : function () {
-                    this.data.templateRanges = this.templateRanges.toJSON();
-                },
-
                 onShow : function () {
                     this.initFormValidation();
+                    this.$el.find('[data-toggle="tooltip"]').tooltip();
                 },
 
                 showTooltip : function (e) {
@@ -153,12 +149,20 @@ define(["backbone",
                     }
                 },
 
-                RedirectToPreviousStep : function (e) {
+                redirectToPreviousStep : function (e) {
                     e.preventDefault();
 
+                    Backbone.history.navigate("projects/edit/"+ this.projectId, {trigger:true});
+                },
+
+                redirectToNextStep : function (e) {
+                    e.preventDefault();
+
+                    var $btn = $(e.currentTarget),
+                        productId = $btn.data('product-id');
+
                     Backbone.history.navigate(
-                        "projects/edit/"
-                        + that.projectId,
+                        "projects/edit/"+this.model.id+"/step2/product/"+productId+"/modules/edit",
                         {trigger:true}
                     );
                 },
@@ -228,6 +232,15 @@ define(["backbone",
                     return Math.floor((1 + Math.random()) * 0x10000)
                     .toString(16)
                     .substring(1);
+                },
+
+                serializeData : function () {
+                    this.data.templateRanges = this.templateRanges.toJSON();
+                    this.data.products = this.model.get('products').toJSON();
+                    this.data.numberOfProducts = this.model.get('products').length + 1;
+
+                    var viewData = {data: this.data};
+                    return _.extend(viewData, BaseLayoutView.prototype.serializeData.apply(this, arguments));
                 }
             });
 

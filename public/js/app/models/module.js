@@ -11,7 +11,9 @@ define(["backbone"],
                 "modulenature_id" : null,
                 "product_id" : null
             },
+
             urlRoot: "/api/module",
+
             toJSON : function () {
                 return JSON.parse(JSON.stringify(this.attributes));
             }

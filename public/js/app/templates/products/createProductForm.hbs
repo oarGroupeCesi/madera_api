@@ -13,11 +13,35 @@
 			un abri de jardin, un bungalow ...</p>
 		</div>
 
+		{{#if data.products}}
+		<div class="col-sm-12">
+			<div id="savedProducts">
+				<h3><small>Produits précédemment enregistrés : </small></h3>
+				{{#each data.products}}
+					<div class="well well-sm well-primary clearfix">
+						<div class="col-sm-11">
+							<b class="primary">{{name}}</b> — <small>créé le {{formated_date created_at}}</small>
+						</div>
+					    {{#if modules}}
+					    <div class="col-sm-1">
+						    <a href="#" class="btn btn-neutre btn-labeled next" data-product-id="{{id}}">
+						    	<span class="badge badge-primary" data-toggle="tooltip" data-placement="top" title="Éditer les modules de ce produit">
+						    		<i class="fa fa-arrow-right"></i>
+						    	</span>
+						    </a>
+					    </div>
+					    {{/if}}
+					</div>
+				{{/each}}
+			</div>
+		</div>
+		{{/if}}
+
 		<div id="products" class="col-sm-12">
 			<div class="product-contain col-sm-12">
 				<div class="row">
 				    <div class="col-sm-2">
-				    	<p class="product-label">Produit n°<span class="number">1</span></p>
+				    	<p class="product-label">Produit n°<span class="number">{{data.numberOfProducts}}</span></p>
 				    </div>
 				    <div class="col-sm-12">
 				    	<div class="form-group">

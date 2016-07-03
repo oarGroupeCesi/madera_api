@@ -85,6 +85,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
+        if(!isset($id) || empty($id) || !is_numeric($id)) {
+            return false;
+        }
 
         $project = Project::with('products')->findOrFail($id);
 

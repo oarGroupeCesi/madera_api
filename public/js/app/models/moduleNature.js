@@ -8,7 +8,12 @@ define(["backbone"],
                 "unity" : null,
                 "price" : null
             },
-            urlRoot: "/api/modulenature"
+
+            urlRoot: "/api/modulenature",
+
+            toJSON : function () {
+                return JSON.parse(JSON.stringify(this.attributes));
+            }
         });
 
         return ModuleNature;

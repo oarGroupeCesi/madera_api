@@ -13,7 +13,7 @@ class ModulenaturesTableSeeder extends Seeder
     public function run()
     {
         DB::table('modulenatures')->insert([
-            'name'       => 'Mûr extérieur',
+            'name'       => 'Mur extérieur',
             'unity'      => 'M linéaire',
             'price'      => 2000,
             'created_at' => Carbon::now(Config::get('app.timezone')),

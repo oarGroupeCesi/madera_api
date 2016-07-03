@@ -20,6 +20,7 @@ define(["backbone",
                 events : {
                     'click #goBack'                 : 'goBack',
                     'click #deleteProject'          : 'deleteProject',
+                    'click #editProject'            : 'redirectToEditProject',
                     'click #addProductsToProject'   : 'redirectToProductsAdding',
                     'click #addModulesToProject'    : 'redirectToModulesAdding'
                 },
@@ -29,6 +30,7 @@ define(["backbone",
 
                     BaseItemView.prototype.initialize.apply(this, arguments);
 
+                    this.setTotalPriceOfModules();
                     this.render();
                 },
 
@@ -36,16 +38,21 @@ define(["backbone",
                     this.$el.find('[data-toggle="tooltip"]').tooltip();
                 },
 
-                getTotalPriceOfModules : function () {
-                    var totalModule = 0;
+                setTotalPriceOfModules : function () {
+                    var totalModule = 0,
+                        products,
+                        modules;
 
-                    this.modules = this.model.get('modules');
+                    products = this.model.get('products');
 
-                    for(var i = 0; i < this.modules.length; i++) {
-                        totalModule += this.modules[i].quantity * this.modules[i].price;
-                    }
-
-                    return totalModule;
+                    products.each(function(product) {
+                        modules = product.get('modules');
+                        modules.each(function(module) {
+                            totalModule += (module.get('quantity') * module.get('moduleNature').price)
+                                        +(module.get('quantity') * module.get('moduleNature').price * 0.2);
+                        });
+                        product.set('totalModules', totalModule);
+                    });
                 },
 
                 goBack : function (e) {
@@ -66,6 +73,12 @@ define(["backbone",
                     }
                 },
 
+                redirectToEditProject : function (e) {
+                    e.preventDefault();
+
+                    Backbone.history.navigate("projects/edit/"+this.model.id, {trigger:true});
+                },
+
                 redirectToProductsAdding : function (e) {
                     e.preventDefault();
 
@@ -79,7 +92,9 @@ define(["backbone",
                 },
 
                 serializeData : function () {
-                    this.data.total = this.getTotalPriceOfModules();
+                    this.data.project = this.model.toJSON();
+
+                    console.log(this.data);
 
                     var viewData = {data: this.data};
                     return _.extend(viewData, BaseItemView.prototype.serializeData.apply(this, arguments));

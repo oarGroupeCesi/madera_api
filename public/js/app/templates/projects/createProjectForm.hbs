@@ -22,15 +22,15 @@
 	    <div class="col-sm-10 col-sm-offset-2">
 	    	<div class="row form-group">
 				<label class="radio-inline">
-					<input type="radio" name="customer_choice" id="newCustomer" value="newCustomer" {{#unless user_id}}checked{{/unless}}> Créer un nouveau client
+					<input type="radio" name="customer_choice" id="newCustomer" value="newCustomer" {{#unless customer_id}}checked{{/unless}}> Créer un nouveau client
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="customer_choice" id="oldCustomer" value="oldCustomer" {{#xif " !this.data.customers.length "}}disabled{{/xif}} {{#if user_id}}checked{{/if}}> Associer le projet à un client existant
+					<input type="radio" name="customer_choice" id="oldCustomer" value="oldCustomer" {{#xif " !this.data.customers.length "}}disabled{{/xif}} {{#if customer_id}}checked{{/if}}> Associer le projet à un client existant
 				</label>
 	        </div>
     	</div>
 
-		<div id="newCustomerForm" {{#if user_id}}class="hidden"{{/if}}>
+		<div id="newCustomerForm" {{#if customer_id}}class="hidden"{{/if}}>
 		    <div class="col-sm-6">
 		    	<div class="row form-group">
 			        <label for="firstname" class="col-sm-4 control-label">Prénom du client</label>
@@ -104,7 +104,7 @@
 		    </div>
 		</div>
 
-		<div id="oldCustomerForm" {{#unless user_id}}class="hidden"{{/unless}}>
+		<div id="oldCustomerForm" {{#unless customer_id}}class="hidden"{{/unless}}>
 		    <div class="col-sm-12">
 		    	<div class="form-group">
 			        <label for="customer_id" class="col-sm-2 control-label">Choix du client</label>
@@ -113,7 +113,7 @@
 			                <select name="customer_id" id="customer_id" class="form-control">
 								<option selected disabled>Sélectionner un client</option>
 								{{#each this.data.customers}}
-									<option value="{{id}}" {{#is this.id ../user_id}}selected{{/is}}>
+									<option value="{{id}}" {{#is this.id ../customer_id}}selected{{/is}}>
 										{{firstname}} {{lastname}} ({{adr_zipcode}})
 									</option>
 								{{/each}}
@@ -124,10 +124,13 @@
 		    </div>
 		</div>
 
-		<div class="col-sm-4 col-sm-offset-4">
-			<div class="form-group">
-				<button type="submit" id="saveProject" class="btn btn-primary center-block">Enregistrer</button>
-			</div>
+		<div id="navigation" class="col-sm-12 footer">
+		    <button type="submit" id="saveProject" class="btn btn-primary">Enregistrer</button>
+		    {{#if id}}
+		    <a href="#" class="btn btn-neutre btn-labeled next">
+		    	Étape suivante <span class="badge badge-primary"><i class="fa fa-arrow-right"></i></span>
+		    </a>
+		    {{/if}}
 		</div>
 	</div>
 
