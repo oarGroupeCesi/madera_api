@@ -618,6 +618,8 @@ body.login header.nav {
 
 .range-list li {
     list-style-type: none;
+    font-size: 0.6em;
+    font-weight: 700;
 }
 
 .table.table-bordered thead,

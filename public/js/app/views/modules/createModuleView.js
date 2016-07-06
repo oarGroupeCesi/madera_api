@@ -95,7 +95,7 @@ define(["backbone",
 
                     var that = this,
                         $form = $(e.currentTarget),
-                        dataModule = {};
+                        dataModule = [];
 
                     $('#modules .module-contain').each(function(index, divModule) {
 
@@ -114,27 +114,24 @@ define(["backbone",
 
                     $form.find('input, textarea, button, select').attr('disabled', 'disabled');
 
-                    if(dataModule.length) {
-                        $.each(dataModule, function(i, moduleModel){
-                            that.channel
-                                .request('saveModule', moduleModel)
-                                .then(function(module){
-                                    that.moduleModel = new ModuleModel(module);
-                                },
-                                function(response){
-                                    that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
-                                });
-                        });
+                    if(dataModule) {
+                        that.channel
+                            .request('saveModule', {'datas' : dataModule})
+                            .then(function(response){
+                                that.launchStepChoiceModal();
+                            },
+                            function(response){
+                                that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
+                            });
                     }
 
-                    that.launchStepChoiceModal();
                 },
 
                 launchStepChoiceModal: function () {
                     var that = this,
                         options = {
                             "title": "Faites votre choix",
-                            "class": "create-clinical-case",
+                            "class": "step-choice",
                             "body": new StepChoiceView({
                                 'model' : this.model
                             }),

@@ -29,7 +29,6 @@ define(["backbone",
                 events : {
                     'change .templateRanges'    : 'showCollapsableTab',
                     'submit form'               : 'handleProductSave',
-                    'click .toggleArrow'        : 'rotateArrow',
                     'click .back'               : 'redirectToPreviousStep',
                     'click .next'               : 'redirectToNextStep'
                 },
@@ -93,7 +92,7 @@ define(["backbone",
                         $('#products .product-contain').each(function(index, divProduct) {
                             datas.dataProduct[index] = {
                                 'name' : $(divProduct).find("input[name='product_name']").val(),
-                                'project_id' : parseInt(that.projectId)
+                                'project_id' : parseInt(that.model.id)
                             };
 
                             datas.dataRange[index] = {
@@ -122,7 +121,7 @@ define(["backbone",
                                                 that.productModel = new ProductModel(productModel);
                                                 Backbone.history.navigate(
                                                     "projects/edit/"
-                                                    + that.projectId
+                                                    + that.model.id
                                                     + "/step2/product/"
                                                     + that.productModel.id
                                                     + "/modules/edit",
@@ -144,7 +143,7 @@ define(["backbone",
                 redirectToPreviousStep : function (e) {
                     e.preventDefault();
 
-                    Backbone.history.navigate("projects/edit/"+ this.projectId, {trigger:true});
+                    Backbone.history.navigate("projects/edit/"+ this.model.id, {trigger:true});
                 },
 
                 redirectToNextStep : function (e) {
@@ -181,13 +180,6 @@ define(["backbone",
                     });
 
                     this.showChildView('listProduct', collapseView);
-                },
-
-                rotateArrow : function (e) {
-                    e.preventDefault();
-                    console.log('in');
-                    $(e.currentTarget).children('i').toggleClass("toggle");
-                    //$(e.currentTarget).parents('.rangePanel').find('.panel-collapse').toggleClass("in");
                 },
 
                 showSuccessMessage : function(successMessage) {

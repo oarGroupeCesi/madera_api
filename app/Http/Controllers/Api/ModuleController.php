@@ -39,44 +39,59 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'            => 'required|string',
-            'height'          => 'integer',
-            'width'           => 'required|integer',
-            'quantity'        => 'required|integer',
-            'modulenature_id' => 'required|integer',
-            'product_id'      => 'required|integer',
-        ]);
+        $requestDatas = $request->all();
 
-        if ($validator->fails()) {
-
-            return response()->json($validator->errors()->all(), 400);
-
+        if(!isset($requestDatas['datas'])) {
+            $requestDatas['datas'] = $request->all();
         }
 
-        try {
+        $modules = $requestDatas['datas'];
 
-            $modulenature = Modulenature::findOrFail($request->input('modulenature_id'));
+        foreach ($modules as $module) {
 
-        } catch (Exception $e) {
+            $validator = Validator::make($module, [
+                'name'            => 'required|string',
+                'height'          => 'integer',
+                'width'           => 'required|integer',
+                'quantity'        => 'required|integer',
+                'modulenature_id' => 'required|integer',
+                'product_id'      => 'required|integer',
+            ]);
 
-            return response()->json('La nature de module n\'existe pas.', 404);
+            if ($validator->fails()) {
 
+                return response()->json($validator->errors()->all(), 400);
+
+            }
+
+            try {
+
+                $modulenature = Modulenature::findOrFail($module['modulenature_id']);
+
+            } catch (Exception $e) {
+
+                return response()->json('La nature de module n\'existe pas.', 404);
+
+            }
+
+            try {
+
+                $product = Product::findOrFail($module['product_id']);
+
+            } catch (Exception $e) {
+
+                return response()->json('Le produit n\'existe pas.', 404);
+
+            }
+
+            $moduleEntity = Module::create($module);
+
+            if(!$moduleEntity) {
+                return $moduleEntity;
+            }
         }
 
-        try {
-
-            $product = Product::findOrFail($request->input('product_id'));
-
-        } catch (Exception $e) {
-
-            return response()->json('Le produit n\'existe pas.', 404);
-
-        }
-
-        $module = Module::create($request->all());
-
-        return $module;
+        return response()->json('Les modules ont bien été enregistrés.', 200);
     }
 
     /**
