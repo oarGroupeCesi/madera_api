@@ -41,9 +41,7 @@ class RangeController extends Controller
        
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), 400);
-        }
+       
 
         $range = Range::create($request->all());
         

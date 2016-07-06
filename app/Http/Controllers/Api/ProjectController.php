@@ -44,11 +44,7 @@ class ProjectController extends Controller
       
         ]);
 
-        if ($validator->fails()) {
-
-            return response()->json($validator->errors()->all(), 400);
-
-        }
+       
 
         try {
 

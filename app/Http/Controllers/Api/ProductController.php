@@ -39,15 +39,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {   
-        $validator = Validator::make($request->all(), [
-           
-        ]);
-
-        if ($validator->fails()) {
-
-            return response()->json($validator->errors()->all(), 400);
-
-        }
+      
 
         try {
 
@@ -106,14 +98,7 @@ class ProductController extends Controller
             return response()->json('Le produit n\'existe pas.', 404);
         }
 
-        $validator = Validator::make($request->all(), [
-            'range_id' => 'integer',
-            'project_id' => 'integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), 400);
-        }
+        
 
         if ($request->input('range_id')) {
             try {
