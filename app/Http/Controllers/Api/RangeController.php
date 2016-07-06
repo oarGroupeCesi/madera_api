@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Range;
 use Validator;
+use App\Http\Requests\RangeStoreRequest;
+use App\Http\Requests\RangeUpdateRequest;
 
 class RangeController extends Controller
 {
@@ -36,11 +38,7 @@ class RangeController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'exterior_finish' => 'required|in:wood,roughcast',
-            'insulating' => 'required|in:synthetic,natural,biological',
-            'top' => 'required|in:roof tiles,slates,thatch',
-            'configuration' => 'required|in:Without angle,With closing angle,With opening angle',
-            'template' => 'required|boolean',
+       
         ]);
 
         if ($validator->fails()) {

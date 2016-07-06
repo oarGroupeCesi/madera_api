@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class ProjectUpdateRequest extends Request
+class RangeStoreRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ProjectUpdateRequest extends Request
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,13 +24,14 @@ class ProjectUpdateRequest extends Request
     public function rules()
     {
         return [
-            'status' => 'in:draft,accepted,pending,refused,command,billing',
-            'quotation_price' => 'integer',
-            'quotation_date' => 'date',
-            'customer_id' => 'integer',
+            'exterior_finish' => 'required|in:wood,roughcast',
+            'insulating' => 'required|in:synthetic,natural,biological',
+            'top' => 'required|in:roof tiles,slates,thatch',
+            'configuration' => 'required|in:Without angle,With closing angle,With opening angle',
+            'template' => 'required|boolean',
         ];
     }
-     public function response(array $errors)
+      public function response(array $errors)
     {
         return response()->json($errors, 400);
     }
