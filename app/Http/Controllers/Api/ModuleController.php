@@ -8,8 +8,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\Models\Module;
+use App\Models\Modulenature;
+use App\Models\Project;
 use App\Http\Requests\ModuleStoreRequest;
 use App\Http\Requests\ModuleUpdateRequest;
+use \Exception;
 
 class ModuleController extends Controller
 {
@@ -35,11 +38,8 @@ class ModuleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ModuleStoreRequest $request)
     {
-       
-
-
         try {
 
             $modulenature = Modulenature::findOrFail($request->input('modulenature_id'));

@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\User;
 use Validator;
 use Exception;
+use Auth;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 
@@ -40,12 +41,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-      
-        ]);
-
-       
-
         try {
 
             $customer = Customer::findOrFail($request->input('customer_id'));
@@ -62,7 +57,7 @@ class ProjectController extends Controller
             'quotation_price' => $request->get('quotation_price'),
             'quotation_date' => $request->get('quotation_date'),
             'customer_id' => $request->get('customer_id'),
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
         ]);
         
         return $project;
