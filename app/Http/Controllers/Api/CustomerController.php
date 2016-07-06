@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
-use Validator;
 use App\Models\Customer;
+use App\Http\Requests\CustomerStoreRequest;
+use App\Http\Requests\CustomerUpdateRequest;
 
 class CustomerController extends Controller
 {
@@ -34,21 +35,8 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerStoreRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'lastname' => 'required',
-            'firstname' => 'required',
-            'email' => 'required|email|unique:customers',
-            'adr_street' => 'required',
-            'adr_zipcode' => 'required',
-            'adr_city' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), 400);
-        }
-
         $customer = Customer::create($request->all());
         
         return $customer;
@@ -83,14 +71,6 @@ class CustomerController extends Controller
 
         if (!$customer) {
             return response()->json('Le client n\'existe pas.', 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'email' => 'email|unique:customers',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), 400);
         }
 
         $customer->update($request->all());
