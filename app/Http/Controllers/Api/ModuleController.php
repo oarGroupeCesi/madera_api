@@ -7,11 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
-use Validator;
 use App\Models\Module;
-use App\Models\Modulenature;
-use App\Models\Project;
-use \Exception;
+use App\Http\Requests\ModuleStoreRequest;
+use App\Http\Requests\ModuleUpdateRequest;
 
 class ModuleController extends Controller
 {
@@ -39,14 +37,7 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name'            => 'required|string',
-            'height'          => 'integer',
-            'width'           => 'required|integer',
-            'quantity'        => 'required|integer',
-            'modulenature_id' => 'required|integer',
-            'project_id'      => 'required|integer',
-        ]);
+       
 
         if ($validator->fails()) {
 
@@ -109,19 +100,6 @@ class ModuleController extends Controller
 
         if (!$module) {
             return response()->json('Le module n\'existe pas.', 404);
-        }
-
-        $validator = Validator::make($request->all(), [
-            'name'            => 'string',
-            'height'          => 'integer',
-            'width'           => 'integer',
-            'quantity'        => 'integer',
-            'modulenature_id' => 'integer',
-            'project_id'      => 'integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->all(), 400);
         }
 
         if ($request->input('modulenature_id')) {
