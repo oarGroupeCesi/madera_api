@@ -11,7 +11,8 @@ use App\Models\Customer;
 use App\Models\User;
 use Validator;
 use Exception;
-use Auth;
+use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 
 class ProjectController extends Controller
 {
@@ -40,11 +41,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'status' => 'required|in:draft,accepted,pending,refused,command,billing',
-            'quotation_price' => 'integer',
-            'quotation_date' => 'date',
-            'customer_id' => 'required|integer',
+      
         ]);
 
         if ($validator->fails()) {
@@ -108,10 +105,7 @@ class ProjectController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'status' => 'in:draft,accepted,pending,refused,command,billing',
-            'quotation_price' => 'integer',
-            'quotation_date' => 'date',
-            'customer_id' => 'integer',
+          
         ]);
 
         if ($validator->fails()) {
