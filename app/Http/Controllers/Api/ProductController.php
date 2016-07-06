@@ -9,9 +9,9 @@ use App\Http\Controllers\Controller;
 use Validator;
 use Exception;
 use App\Models\Product;
-use App\Models\Project;
-use App\Models\Range;
-use App\Http\Controllers\Api\RangeController;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
+
 
 class ProductController extends Controller
 {
@@ -40,9 +40,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {   
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'range_id' => 'required|integer',
-            'project_id' => 'required|integer',
+           
         ]);
 
         if ($validator->fails()) {
