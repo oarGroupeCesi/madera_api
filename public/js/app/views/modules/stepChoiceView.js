@@ -19,8 +19,6 @@ define(["backbone",
                     var that = this;
 
                     BaseItemView.prototype.initialize.apply(this, arguments);
-
-                    console.log(this.model);
                 },
 
                 redirectToProductsStep : function (e) {

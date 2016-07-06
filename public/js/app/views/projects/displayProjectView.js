@@ -41,15 +41,16 @@ define(["backbone",
                 setTotalPriceOfModules : function () {
                     var totalModule = 0,
                         products,
-                        modules;
+                        modules,
+                        total;
 
                     products = this.model.get('products');
 
                     products.each(function(product) {
                         modules = product.get('modules');
                         modules.each(function(module) {
-                            totalModule += (module.get('quantity') * module.get('moduleNature').price)
-                                        +(module.get('quantity') * module.get('moduleNature').price * 0.2);
+                            total = module.get('quantity') * module.get('moduleNature').price;
+                            totalModule += total + (total * 0.2);
                         });
                         product.set('totalModules', totalModule);
                     });
@@ -68,7 +69,7 @@ define(["backbone",
                         this.channel
                             .request('deleteProject', this.model)
                             .then(function(response) {
-                                console.log(response);
+                                console.log('showSuccessMessage', response);
                             });
                     }
                 },
@@ -93,8 +94,6 @@ define(["backbone",
 
                 serializeData : function () {
                     this.data.project = this.model.toJSON();
-
-                    console.log(this.data);
 
                     var viewData = {data: this.data};
                     return _.extend(viewData, BaseItemView.prototype.serializeData.apply(this, arguments));

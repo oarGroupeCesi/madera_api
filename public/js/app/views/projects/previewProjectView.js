@@ -25,6 +25,7 @@ define(["backbone",
 
                     BaseItemView.prototype.initialize.apply(this, arguments);
 
+                     this.setTotalPriceOfModules();
                     this.render();
                 },
 
@@ -32,16 +33,26 @@ define(["backbone",
                     this.$el.find('[data-toggle="tooltip"]').tooltip();
                 },
 
-                getTotalPriceOfModules : function () {
-                    var totalModule = 0;
+                onDestroy : function () {
+                    this.channel.off();
+                },
 
-                    this.modules = this.model.get('modules');
+                setTotalPriceOfModules : function () {
+                    var totalModule = 0,
+                        products,
+                        modules,
+                        total;
 
-                    for(var i = 0; i < this.modules.length; i++) {
-                        totalModule += this.modules[i].quantity * this.modules[i].price;
-                    }
+                    products = this.model.get('products');
 
-                    return totalModule;
+                    products.each(function(product) {
+                        modules = product.get('modules');
+                        modules.each(function(module) {
+                            total = module.get('quantity') * module.get('moduleNature').price;
+                            totalModule += total + (total * 0.2);
+                        });
+                        product.set('totalModules', totalModule);
+                    });
                 },
 
                 validateProject : function (e) {
@@ -60,7 +71,7 @@ define(["backbone",
                 },
 
                 serializeData : function () {
-                    this.data.total = this.getTotalPriceOfModules();
+                    this.data.project = this.model.toJSON();
 
                     var viewData = {data: this.data};
                     return _.extend(viewData, BaseItemView.prototype.serializeData.apply(this, arguments));

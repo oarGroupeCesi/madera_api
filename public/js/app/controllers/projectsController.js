@@ -42,6 +42,8 @@
             addProject : function () {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'creationProjet']);
 
+                this.projectId = null;
+
                 this.initProject({
                     step : "step1"
                 });
@@ -97,7 +99,7 @@
             },
 
             previewCustomerProject : function(projectId) {
-                App.views.appLayoutView.setBodyClass(['headerEdition', 'apercuProjetFini']);
+                App.views.appLayoutView.setBodyClass(['headerEdition', 'apercuProjetFinal']);
 
                 this.projectId = parseInt(projectId);
 
@@ -142,10 +144,15 @@
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
 
+                                    console.log('in', that.projectId);
+
                                     that.channel
                                         .request('getProject', that.projectId)
                                         .then(function(project){
+                                            console.log('toto', project);
                                             that.projectModel = (project.id) ? new ProjectModel(project) : new ProjectModel();
+
+                                            console.log('projectModel', that.projectModel);
 
                                             App.views.stepView = new CreateProjectView({
                                                 'customers' : that.customersCollection,
@@ -230,10 +237,17 @@
                                         'title' : 'Aperçu du devis final'
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
-                                    App.views.stepView = new PreviewProjectView({
-                                        'model' : new ProjectModel(projectModel)
+
+                                    that.channel
+                                        .request('getProject', that.projectId)
+                                        .then(function(project){
+                                            that.projectModel = new ProjectModel(project);
+
+                                            App.views.stepView = new PreviewProjectView({
+                                                'model' : that.projectModel
+                                            });
+                                            App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                     });
-                                    App.views.projectWrapperLayoutView.getRegion('projectContent').show(App.views.stepView);
                                 });
 
                             break;
@@ -244,14 +258,6 @@
                     }
                 }
 
-            },
-
-            getProject : function () {
-                if(this.projectsCollection.length && this.projectId) {
-                    return this.projectsCollection.findWhere({id:this.projectId});
-                }
-
-                return new ProjectModel();
             }
         });
 

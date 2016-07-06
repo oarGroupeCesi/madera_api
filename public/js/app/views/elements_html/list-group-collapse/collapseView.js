@@ -8,21 +8,21 @@ define(["marionette",
         "use strict";
 
         var SelectItemView = BaseItemView.extend({
-            
+
             template: CollapseTemplate,
-            
+
             initialize: function (params) {
-                
+
                 BaseItemView.prototype.initialize.apply(this, arguments);
-                
+
                 if (!params || !params.options) {
                     return;
                 }
-                
+
                 this.data.options = params.options.toJSON();
                 this.data.id = params.collapseId || false;
                 this.data.uniqueId = params.uniqueId;
-                
+
                 this.render();
             }
         });

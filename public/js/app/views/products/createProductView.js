@@ -3,7 +3,6 @@ define(["backbone",
         "marionette",
         "jquery",
         "underscore",
-        "tooltip",
         "baseLayoutView",
         "views/behaviors/validationBehavior",
         "views/elements_html/list-group-collapse/collapseView",
@@ -11,7 +10,7 @@ define(["backbone",
         "models/product",
         "models/range",
         "hbs!/js/app/templates/products/createProductForm"],
-        function (Backbone, Radio, Marionette, $, _, tooltip,
+        function (Backbone, Radio, Marionette, $, _,
                   BaseLayoutView,
                   ValidationBehavior, CollapseView,
                   ProjectModel, ProductModel, RangeModel,
@@ -31,14 +30,11 @@ define(["backbone",
                     'change .templateRanges'    : 'showCollapsableTab',
                     'submit form'               : 'handleProductSave',
                     'click .toggleArrow'        : 'rotateArrow',
-                    'mouseover .theTooltip'     : 'showTooltip',
                     'click .back'               : 'redirectToPreviousStep',
                     'click .next'               : 'redirectToNextStep'
                 },
 
                 initialize: function (options) {
-                    var that = this;
-
                     if(!options.templateRanges) {
                         return false;
                     }
@@ -58,10 +54,6 @@ define(["backbone",
                     this.$el.find('[data-toggle="tooltip"]').tooltip();
                 },
 
-                showTooltip : function (e) {
-                    $(e.currentTarget).tooltip();
-                },
-
                 initFormValidation : function () {
                     this.trigger("ValidationBehavior:initFormValidation", {
                         formId : "#CreateProductForm",
@@ -69,8 +61,16 @@ define(["backbone",
                         focusInvalid: true,
                         ignore: '.ignore',
                         rules: {
+                            'range_id' : {
+                                required: true
+                            },
                             'product_name': {
                                 required: true
+                            }
+                        },
+                        messages: {
+                            'range_id' : {
+                                required: "Erreur : Vous devez sélectionner un modèle de gamme."
                             }
                         }
                     });
@@ -80,7 +80,6 @@ define(["backbone",
                     $("#message").find('.alert').addClass("hide").empty();
 
                     e.preventDefault();
-
 
                     var that = this,
                         $form = $(e.currentTarget),
@@ -92,14 +91,6 @@ define(["backbone",
                     if ($form.valid()) {
 
                         $('#products .product-contain').each(function(index, divProduct) {
-
-                            console.log($(divProduct).find("select[name='range_id']").val());
-
-                            if($(divProduct).find("select[name='range_id']").val() == null) {
-                                that.showErrorMessage($form, 'Erreur : Vous devez sélectionner un modèle de gamme.');
-                                return false;
-                            }
-
                             datas.dataProduct[index] = {
                                 'name' : $(divProduct).find("input[name='product_name']").val(),
                                 'project_id' : parseInt(that.projectId)
@@ -113,39 +104,40 @@ define(["backbone",
                                 'configuration' : $(divProduct).find("select[name='configuration']").val(),
                                 'template' : 0
                             };
-
                         });
 
                         $form.find('input, textarea, button, select').attr('disabled', 'disabled');
 
-                        $.each(datas.dataRange, function(i, dataRange){
-                            that.rangeChannel
-                                .request('saveRange', dataRange)
-                                .then(function(rangeModel){
-                                    that.rangeModel = new RangeModel(rangeModel);
-                                    datas.dataProduct[i].range_id = parseInt(that.rangeModel.get('id'));
+                        if(datas.dataRange.length && datas.dataProduct.length) {
+                            $.each(datas.dataRange, function(i, dataRange){
+                                that.rangeChannel
+                                    .request('saveRange', dataRange)
+                                    .then(function(rangeModel){
+                                        that.rangeModel = new RangeModel(rangeModel);
+                                        datas.dataProduct[i].range_id = parseInt(that.rangeModel.get('id'));
 
-                                    that.channel
-                                        .request('saveProduct', datas.dataProduct[i])
-                                        .then(function(productModel){
-                                            that.productModel = new ProductModel(productModel);
-                                            Backbone.history.navigate(
-                                                "projects/edit/"
-                                                + that.projectId
-                                                + "/step2/product/"
-                                                + that.productModel.id
-                                                + "/modules/edit",
-                                                {trigger:true}
-                                            );
-                                        },
-                                        function(response){
-                                            that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
-                                        });
-                                },
-                                function(response){
-                                    that.showErrorMessage($form, 'Erreur : ' + response.responseJSON[0]);
-                                });
-                        });
+                                        that.channel
+                                            .request('saveProduct', datas.dataProduct[i])
+                                            .then(function(productModel){
+                                                that.productModel = new ProductModel(productModel);
+                                                Backbone.history.navigate(
+                                                    "projects/edit/"
+                                                    + that.projectId
+                                                    + "/step2/product/"
+                                                    + that.productModel.id
+                                                    + "/modules/edit",
+                                                    {trigger:true}
+                                                );
+                                            },
+                                            function(response){
+                                                that.showErrorMessage('Erreur : ' + response.responseJSON[0]);
+                                            });
+                                    },
+                                    function(response){
+                                        that.showErrorMessage('Erreur : ' + response.responseJSON[0]);
+                                    });
+                            });
+                        }
                     }
                 },
 
@@ -176,28 +168,32 @@ define(["backbone",
 
                     selectedRange = this.templateRanges.findWhere({id:parseInt(rangeId)});
 
-                    App.views.collapseView = new CollapseView({
+                    var collapseView = new CollapseView({
                         options : selectedRange,
                         collapseId : "listGroupRangeCollapse",
-                        uniqueId : this.uniqueId() + '-' + this.uniqueId()
+                        uniqueId : this.uniqueId() + '_' + this.uniqueId()
                     });
 
                     $(e.currentTarget).parents('.product-contain').find('.rangePanel').attr('id', rangePanelId);
 
                     this.addRegions({
-                        'listProduct': $(e.currentTarget).parents('.product-contain').find('#'+rangePanelId)
+                        listProduct: '#'+rangePanelId
                     });
 
-                    this.getRegion("listProduct").show(App.views.collapseView);
+                    this.showChildView('listProduct', collapseView);
                 },
 
                 rotateArrow : function (e) {
                     e.preventDefault();
+                    console.log('in');
                     $(e.currentTarget).children('i').toggleClass("toggle");
+                    //$(e.currentTarget).parents('.rangePanel').find('.panel-collapse').toggleClass("in");
                 },
 
-                showSuccessMessage : function($form, successMessage) {
-                    this.enableForm($form);
+                showSuccessMessage : function(successMessage) {
+                    var $form = this.$el.find('form');
+
+                    this.enableForm();
 
                     $('html, body').animate({scrollTop : 0}, 500);
 
@@ -208,14 +204,16 @@ define(["backbone",
                     });
                 },
 
-                showErrorMessage : function ($form, response) {
+                showErrorMessage : function (response) {
+                    var $form = this.$el.find('form');
+
+                    this.enableForm();
+
                     $form.find('.alert').fadeIn(600, function() {
                         $(this).addClass('alert-danger')
                         $(this).removeClass('alert-success hide')
                         $(this).html(response);
                     });
-
-                    this.enableForm($form);
                 },
 
                 hideMessage : function(e) {
@@ -224,8 +222,10 @@ define(["backbone",
                     });
                 },
 
-                enableForm : function($form) {
-                    $form.find('input:not([readonly]), textarea, button, select:not(".readonly")').removeAttr('disabled');
+                enableForm : function() {
+                    var $form = this.$el.find('form');
+
+                    $form.find('input, textarea, button, select').removeAttr('disabled');
                 },
 
                 uniqueId : function () {

@@ -1,84 +1,80 @@
 <div class="row">
-	<div class="col-sm-12">
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<p class="lead">Produit</p>
-				{{#each products}}
-				<blockquote>
-                    <div class="dropup">
-                        <p id="productDropUp" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{name}}
-                        </p>
-                        <ul class="dropdown-menu" aria-labelledby="productDropUp">
-                            <li><a>{{i18n "app.global.created_at"}} {{formated_date p_created_at}}</a></li>
-                        </ul>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            {{#if data.project.products}}
+                {{#each data.project.products}}
+                    <div class="panel-body">
+                        <p class="lead">Produit(s)</p>
+                        <blockquote>
+                            <div class="col-sm-4">
+                                <div class="dropup">
+                                    <p id="productDropUp" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{name}}
+                                    </p>
+                                    <ul class="dropdown-menu" aria-labelledby="productDropUp">
+                                        <li><a>{{i18n "app.global.created_at"}} {{formated_date created_at}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <ul class="range-list list-inline">
+                                    <li><i class="custom-icon configuration" data-toggle="tooltip" data-placement="top" title="{{i18n 'app.ranges.configuration.label'}}"></i> {{i18n 'app.ranges.configuration.enum' range.configuration}}</li>
+                                    <li><i class="custom-icon exterior_finish" data-toggle="tooltip" data-placement="top" title="{{i18n 'app.ranges.exterior_finish.label'}}"></i> {{i18n 'app.ranges.exterior_finish.enum' range.exterior_finish}}</li>
+                                    <li><i class="custom-icon insulating" data-toggle="tooltip" data-placement="top" title="{{i18n 'app.ranges.insulating.label'}}"></i> {{i18n 'app.ranges.insulating.enum' range.insulating}}</li>
+                                    <li><i class="custom-icon top" data-toggle="tooltip" data-placement="top" title="{{i18n 'app.ranges.top.label'}}"></i> {{i18n 'app.ranges.top.enum' range.top}}</li>
+                                </ul>
+                            </div>
+                            <footer>{{i18n "app.modules.title"}} :
+                                <cite>
+                                    {{#if modules}}
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Intitulé</th>
+                                                    <th>Type</th>
+                                                    <th>Référence</th>
+                                                    <th>Hauteur</th>
+                                                    <th>Largeur</th>
+                                                    <th>Unité</th>
+                                                    <th>Quantité</th>
+                                                    <th>Prix Unitaire</th>
+                                                    <th>Total HT</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each modules}}
+                                                <tr>
+                                                    <th scope="row">{{name}}</th>
+                                                    <td>{{moduleNature.name}}</td>
+                                                    <td>MAD00{{id}}</td>
+                                                    <td>{{height}}</td>
+                                                    <td>{{width}}</td>
+                                                    <td>{{moduleNature.unity}}</td>
+                                                    <td>{{quantity}}</td>
+                                                    <td>{{moduleNature.price}}€</td>
+                                                    <td>{{math quantity "*" moduleNature.price}}€</td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+
+                                            <tfoot>
+                                                <tr>
+                                                    <th scope="row"></th>
+                                                    <td colspan="6"></td>
+                                                    <td class="total-label">Total TTC : </td>
+                                                    <td class="total-price">{{totalModules}}€</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    {{/if}}
+                                </cite>
+                            </footer>
+                        </blockquote>
                     </div>
-					<footer>{{i18n "app.ranges.title"}} :
-						<cite>
-                            <ul class="range-list">
-                                <li>
-                                    <i class="custom-icon configuration" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.configuration.label"}}"></i>
-                                    {{i18n "app.ranges.configuration.enum" configuration}}
-                                </li>
-                                <li>
-                                    <i class="custom-icon exterior_finish" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.exterior_finish.label"}}"></i>
-                                    {{i18n "app.ranges.exterior_finish.enum" exterior_finish}}
-                                </li>
-                                <li>
-                                    <i class="custom-icon insulating" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.insulating.label"}}"></i>
-                                    {{i18n "app.ranges.insulating.enum" insulating}}
-                                </li>
-                                <li>
-                                    <i class="custom-icon top" data-toggle="tooltip" data-placement="top" title="{{i18n "app.ranges.top.label"}}"></i>
-                                    {{i18n "app.ranges.top.enum" top}}
-                                </li>
-                            </ul>
-						</cite>
-					</footer>
-				</blockquote>
-				{{/each}}
-			</div>
-		</div>
-	</div>
-
-	<div class="col-sm-12">
-       <p class="lead">Module(s)</p>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Intitulé</th>
-                    <th>Type</th>
-                    <th>Référence</th>
-                    <th>Quantité</th>
-                    <th>Prix Unitaire</th>
-                    <th>Prix TTC</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each modules}}
-                <tr>
-                    <th scope="row">{{m_name}}</th>
-                    <td>{{name}}</td>
-                    <td>MAD00{{m_id}}</td>
-                    <td>{{quantity}}</td>
-                    <td>{{price}}€</td>
-                    <td>{{math quantity "*" price}}€</td>
-                </tr>
                 {{/each}}
-            </tbody>
-
-            <tfoot>
-                <tr>
-                    <th scope="row"></th>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="total-label">Total : </td>
-                    <td class="total-price">{{this.data.total}}€</td>
-                </tr>
-            </tfoot>
-        </table>
-	</div>
+            {{/if}}
+        </div>
+    </div>
 
 	<div class="col-sm-12">
 		<div id="footerForm" class="col-sm-4 col-sm-offset-4">

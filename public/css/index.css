@@ -150,6 +150,9 @@ p.bg-info {
     color : #00B16A;
 }
 
+.help-block.text-danger {
+    color: #a94442;
+}
 
 /**
  * MODAL

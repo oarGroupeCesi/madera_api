@@ -17,7 +17,6 @@ define(["backbone",
 
             var CreateProjectView = BaseItemView.extend({
                 template: CreateProjectFormTemplate,
-                model : new ProjectModel(),
 
                 behaviors: {
                     ValidationBehavior: {
@@ -46,6 +45,10 @@ define(["backbone",
 
                 onShow : function () {
                     this.initFormValidation();
+                },
+
+                onDestroy : function () {
+                    this.channel.off();
                 },
 
                 initFormValidation : function (custumerRadio) {
@@ -157,7 +160,7 @@ define(["backbone",
                     this.data.customers = this.customersCollection.toJSON();
 
                     var viewData = {data: this.data};
-                    return _.extend(viewData, BaseLayoutView.prototype.serializeData.apply(this, arguments));
+                    return _.extend(viewData, BaseItemView.prototype.serializeData.apply(this, arguments));
                 }
             });
 

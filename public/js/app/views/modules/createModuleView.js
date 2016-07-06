@@ -218,6 +218,7 @@ define(["backbone",
                         $(this).removeClass('alert-success hide')
                         $(this).html(response);
                     });
+                    this.enableForm($form);
                 },
 
                 hideMessage : function(e) {
