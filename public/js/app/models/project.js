@@ -11,6 +11,7 @@ define(["backbone",
                 "quotation_date" : null,
                 "customer_id" : null,
                 "user_id" : null,
+                "image" : null,
                 "products" : null
             },
 

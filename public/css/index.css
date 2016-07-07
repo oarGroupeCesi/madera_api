@@ -110,8 +110,8 @@ p.bg-info {
 }
 
 .badge.badge-default {
-    color: #333;
-    background-color: #fff;
+    color: #fff;
+    background-color: #b2b2b2;
 }
 
 .padding-small {
@@ -152,6 +152,10 @@ p.bg-info {
 
 .help-block.text-danger {
     color: #a94442;
+}
+
+blockquote footer:before {
+    content: '';
 }
 
 /**

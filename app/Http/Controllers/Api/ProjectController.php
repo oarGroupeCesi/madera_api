@@ -30,7 +30,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return Project::orderBy('created_at', 'desc')->limit(6)->get();
+        return Project::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -71,7 +71,8 @@ class ProjectController extends Controller
             'quotation_price' => $request->get('quotation_price'),
             'quotation_date' => $request->get('quotation_date'),
             'customer_id' => $request->get('customer_id'),
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            'image' => 'house-plan-'.rand(1,6).'.jpg'
         ]);
 
         return $project;

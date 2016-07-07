@@ -120,3 +120,18 @@
         </div>
     </div>
 </div>
+
+{{#if data.project.products}}
+<div class="row padding-large">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                <h3>Rendu virtuel de votre projet</h3>
+            </div>
+            <div class="panel-body">
+                <img src="/images/houses/{{data.project.image}}" class="img-responsive" />
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}

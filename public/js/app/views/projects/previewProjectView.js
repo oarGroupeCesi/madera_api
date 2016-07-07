@@ -17,7 +17,8 @@ define(["backbone",
                 template: PreviewProjectTemplate,
 
                 events : {
-                    'click #validateProject' : 'validateProject'
+                    'click #validateProject'    : 'validateProject',
+                    'click .back'               : 'redirectToProductsAdding'
                 },
 
                 initialize: function (options) {
@@ -68,6 +69,14 @@ define(["backbone",
                             that.model = new ProjectModel(projectModel);
                             Backbone.history.navigate("home", {trigger:true});
                         });
+                },
+
+                redirectToProductsAdding : function (e) {
+                    e.preventDefault();
+
+                    Backbone.history.navigate(
+                        "projects/edit/"+ this.model.id + "/step1/products/edit", {trigger:true}
+                    );
                 },
 
                 serializeData : function () {

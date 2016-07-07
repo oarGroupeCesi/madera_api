@@ -6,7 +6,7 @@
                     <div class="panel-body">
                         <p class="lead">Produit(s)</p>
                         <blockquote>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <div class="dropup">
                                     <p id="productDropUp" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{name}}
@@ -16,7 +16,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 <ul class="range-list list-inline">
                                     <li><i class="custom-icon configuration" data-toggle="tooltip" data-placement="top" title="{{i18n 'app.ranges.configuration.label'}}"></i> {{i18n 'app.ranges.configuration.enum' range.configuration}}</li>
                                     <li><i class="custom-icon exterior_finish" data-toggle="tooltip" data-placement="top" title="{{i18n 'app.ranges.exterior_finish.label'}}"></i> {{i18n 'app.ranges.exterior_finish.enum' range.exterior_finish}}</li>
@@ -24,10 +24,11 @@
                                     <li><i class="custom-icon top" data-toggle="tooltip" data-placement="top" title="{{i18n 'app.ranges.top.label'}}"></i> {{i18n 'app.ranges.top.enum' range.top}}</li>
                                 </ul>
                             </div>
-                            <footer>{{i18n "app.modules.title"}} :
+                            <footer>
                                 <cite>
                                     {{#if modules}}
-                                        <table class="table table-bordered table-striped">
+                                        <table class="table table-bordered table-striped margin-small">
+                                            <caption>{{i18n "app.modules.title"}}</caption>
                                             <thead>
                                                 <tr>
                                                     <th>Intitulé</th>
@@ -77,12 +78,13 @@
     </div>
 
 	<div class="col-sm-12">
-		<div id="footerForm" class="col-sm-4 col-sm-offset-4">
-			<div class="form-group center-block">
-				<button type="button" id="validateProject" class="btn btn-lg btn-default btn-custom-light">
-					<i class="fa fa-lg fa-check"></i> Finaliser le devis
-				</button>
-			</div>
-		</div>
+        <div id="navigation" class="col-sm-12 footer">
+            <a href="#" class="btn btn-neutre btn-labeled back">
+                <span class="badge badge-primary"><i class="fa fa-arrow-left"></i></span> Étape précédente
+            </a>
+            <button type="button" id="validateProject" class="btn btn-lg btn-default btn-custom-light">
+                <i class="fa fa-lg fa-check"></i> Finaliser le devis
+            </button>
+        </div>
 	</div>
 </div>

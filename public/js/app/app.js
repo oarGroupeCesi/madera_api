@@ -26,6 +26,7 @@ define([
 
         App.controllers = {};
         App.views = {};
+        App.config = {};
 
         App.controllers.usersController = new UsersController();
         App.controllers.pagesController = new PagesController();
@@ -36,12 +37,14 @@ define([
 
         App.router = new Marionette.AppRouter();
 
-        Moment.locale('fr');
+        App.config.lang = 'fr';
+
+        Moment.locale(App.config.lang);
 
         i18n
         .use(i18nXHR)
         .init({
-            "fallbackLng" : "fr",
+            "fallbackLng" : App.config.lang,
             "defaultNS" : "translation",
             "ns" : [ "translation" ],
             "backend" : {

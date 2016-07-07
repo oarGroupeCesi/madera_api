@@ -38,7 +38,7 @@ class RangeController extends Controller
         $validator = Validator::make($request->all(), [
             'exterior_finish' => 'required|in:wood,roughcast',
             'insulating' => 'required|in:synthetic,natural,biological',
-            'top' => 'required|in:roof_tiles,slates,thatch',
+            'top' => 'required|in:roof_tiles,slate,thatch',
             'configuration' => 'required|in:without_angle,with_closing_angle,with_opening_angle',
             'template' => 'required|boolean',
         ]);
@@ -86,7 +86,7 @@ class RangeController extends Controller
         $validator = Validator::make($request->all(), [
             'exterior_finish' => 'in:wood,roughcast',
             'insulating' => 'in:synthetic,natural,biological',
-            'top' => 'in:roof_tiles,slates,thatch',
+            'top' => 'in:roof_tiles,slate,thatch',
             'configuration' => 'in:without_angle,with_closing_angle,with_opening_angle',
             'template' => 'boolean',
         ]);

@@ -1,0 +1,6 @@
+{{#each data.lastProjects}}
+<a href="#projects/{{id}}" class="list-group-item">
+    <span class="badge badge-{{i18n "app.projects.status" status "color"}}">{{i18n "app.projects.status" status "name"}}</span>
+    Devis n°{{id}} : {{name}}
+</a>
+{{/each}}

@@ -100,7 +100,7 @@ Authorization: Baerer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImVtYWlsI
 				</tr>
 				<tr>
 					<td>top</td>
-					<td>Enum : roof tiles, slates, thatch</td>
+					<td>Enum : roof tiles, slate, thatch</td>
 					<td>Toiture de la gamme</td>
 					<td>Oui</td>
 				</tr>
@@ -206,7 +206,7 @@ Authorization: Baerer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImVtYWlsI
 				</tr>
 				<tr>
 					<td>top</td>
-					<td>Enum : roof tiles, slates, thatch</td>
+					<td>Enum : roof tiles, slate, thatch</td>
 					<td>Toiture de la gamme</td>
 					<td>Non</td>
 				</tr>

@@ -25,6 +25,7 @@ class Project extends Model
     	'quotation_date',
         'customer_id',
         'user_id',
+        'image'
     ];
 
     /**
