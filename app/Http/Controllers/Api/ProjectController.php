@@ -169,7 +169,7 @@ class ProjectController extends Controller
 
             $project->delete();
 
-            return 'Le projet a bien été supprimé.';
+            return response()->json('Le projet a bien été supprimé.', 200);
         }
 
 

@@ -8,7 +8,6 @@
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo asset('css/bootstrap.min.css'); ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo asset('css/index.css'); ?>">
-        <link rel="stylesheet" type="text/css" href="/js/vendor/jquery/plugins/select2/css/select2.min.css">
         <title>Madera</title>
     </head>
     <body>

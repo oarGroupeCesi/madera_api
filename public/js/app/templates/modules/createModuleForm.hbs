@@ -20,6 +20,9 @@
 				{{#each data.modules}}
 					<div class="well well-sm well-primary clearfix">
 						<div class="col-sm-11">
+	                        <a href="#" class="deleteModule" data-module-id="{{id}}" data-toggle="tooltip" data-placement="top" title="Supprimer le module">
+	                            <i class="fa fa-trash-o text-danger"></i>
+	                        </a>
 							<b class="primary">{{name}}</b> — de type {{moduleNature.name}} — <small>créé le {{formated_date created_at}}</small>
 						</div>
 					</div>
@@ -86,7 +89,7 @@
 			    			<p class="module-label">Module n°<span class="number"></span></p>
 			    		</div>
 			    		<div class="col-sm-6 text-right">
-			    			<a href="#" class="deleteModule text-danger" data-toggle="tooltip" data-placement="right" title="Supprimer le module"><i class="fa fa-trash"></i></a>
+			    			<a href="#" class="deleteModuleOnFront text-danger" data-toggle="tooltip" data-placement="right" title="Supprimer le module"><i class="fa fa-trash"></i></a>
 			    		</div>
 			    	</div>
 			    </div>

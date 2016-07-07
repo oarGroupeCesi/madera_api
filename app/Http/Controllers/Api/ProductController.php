@@ -38,7 +38,7 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'range_id' => 'required|integer',
@@ -56,7 +56,7 @@ class ProductController extends Controller
             $range = Range::findOrFail($request->input('range_id'));
 
         } catch (Exception $e) {
-            
+
             return response()->json('La gamme n\'existe pas.', 404);
 
         }
@@ -66,13 +66,13 @@ class ProductController extends Controller
             $project = Project::findOrFail($request->input('project_id'));
 
         } catch (Exception $e) {
-            
+
             return response()->json('Le projet n\'existe pas.', 404);
 
         }
 
         $product = Product::create($request->all());
-        
+
         return $product;
     }
 
@@ -123,7 +123,7 @@ class ProductController extends Controller
                 $range = Range::findOrFail($request->input('range_id'));
 
             } catch (Exception $e) {
-                
+
                 return response()->json('La gamme n\'existe pas.', 404);
 
             }
@@ -135,7 +135,7 @@ class ProductController extends Controller
                 $project = Project::findOrFail($request->input('project_id'));
 
             } catch (Exception $e) {
-                
+
                 return response()->json('Le projet n\'existe pas.', 404);
 
             }
@@ -159,8 +159,9 @@ class ProductController extends Controller
         if (!$product) {
             return response()->json('Le produit n\'existe pas.', 404);
         }
+
         $product->delete();
 
-        return 'Le produit a bien été supprimé.';
+        return response()->json('Le produit a bien été supprimé.', 200);
     }
 }

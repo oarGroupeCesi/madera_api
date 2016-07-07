@@ -16,8 +16,6 @@ define(["backbone",
 
                     this.lastProjects = options.lastProjects;
 
-                    console.log('options', options);
-
                     this.render();
                 },
 

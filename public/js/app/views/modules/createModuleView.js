@@ -30,12 +30,13 @@ define(["backbone",
                 },
 
                 events : {
-                    'change .moduleNature'      : 'showModuleForm',
-                    'submit form'               : 'handleModuleSave',
-                    'mouseover .theTooltip'     : 'showTooltip',
-                    'click #addAnotherModule'   : 'addAnotherModule',
-                    'click .deleteModule'       : 'deleteModule',
-                    'click .back'               : 'redirectToPreviousStep'
+                    'change .moduleNature'          : 'showModuleForm',
+                    'submit form'                   : 'handleModuleSave',
+                    'mouseover .theTooltip'         : 'showTooltip',
+                    'click #addAnotherModule'       : 'addAnotherModule',
+                    'click .deleteModuleOnFront'    : 'deleteModuleOnFront',
+                    'click .back'                   : 'redirectToPreviousStep',
+                    'click .deleteModule'           : 'deleteModule'
                 },
 
                 initialize: function (options) {
@@ -59,6 +60,7 @@ define(["backbone",
 
                 onShow : function () {
                     this.initFormValidation();
+                    this.$el.find('[data-toggle="tooltip"]').tooltip();
                 },
 
                 initFormValidation : function () {
@@ -172,10 +174,27 @@ define(["backbone",
                     $("body").animate({ scrollTop: $(document).height()}, 1600);
                 },
 
-                deleteModule : function (e) {
+                deleteModuleOnFront : function (e) {
                     e.preventDefault();
 
                     $(e.currentTarget).parents('.module-contain').remove();
+                },
+
+                deleteModule : function (e) {
+                    e.preventDefault();
+                    var that = this,
+                        moduleId = $(e.currentTarget).data('module-id'),
+                        productModel = this.model.get('products').findWhere({id:that.productId}),
+                        moduleModel = productModel.get('modules').findWhere({id:moduleId});
+
+                    if(moduleId && confirm("Voulez-vous réellement supprimer ce module ?")) {
+                        this.channel
+                            .request('deleteModule', moduleModel)
+                            .then(function(model, response) {
+                                that.showSuccessMessage(response);
+                                that.render();
+                            });
+                    }
                 },
 
                 showModuleForm : function (e) {
@@ -207,6 +226,19 @@ define(["backbone",
                     Backbone.history.navigate(
                         "projects/edit/"+ this.model.id + "/step1/products/edit", {trigger:true}
                     );
+                },
+
+                showSuccessMessage : function(successMessage) {
+                    var $form = this.$el.find('#message');
+
+                    $('html, body').animate({scrollTop : 0}, 500);
+
+                    $form.find('.alert').fadeIn(600, function() {
+                        $(this).addClass('alert-success')
+                        $(this).removeClass('alert-danger hide')
+                        $(this).html(successMessage);
+                    });
+
                 },
 
                 showErrorMessage : function ($form, response) {

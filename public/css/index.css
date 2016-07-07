@@ -602,6 +602,17 @@ body.login header.nav {
     margin-bottom: 50px;
 }
 
+.deleteProduct {
+    position: absolute;
+    top: 10px;
+    right: 35px;
+}
+
+.deleteModule {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 
 /**
  * VIEW

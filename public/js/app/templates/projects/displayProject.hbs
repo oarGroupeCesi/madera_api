@@ -19,6 +19,12 @@
 
 <div class="row padding-large">
 
+    <div class="form-group" id="message">
+        <div class="col-sm-6 col-sm-offset-4 ">
+            <div class="col-sm-12 alert hide"></div>
+        </div>
+    </div>
+
     <div class="page-header col-sm-12">
         <h1><a class="small-size">#{{id}}</a>{{data.project.name}} <small class="small-size">(<span data-toggle="tooltip" data-placement="top" title="Status">s<sub>t</sub></span> : {{i18n "app.projects.status" data.project.status "name"}})</small></h1>
     </div>
@@ -28,6 +34,9 @@
             {{#if data.project.products}}
                 {{#each data.project.products}}
                     <div class="panel-body">
+                        <a href="#" class="deleteProduct" data-product-id="{{id}}" data-toggle="tooltip" data-placement="left" title="Supprimer le produit">
+                            <i class="fa fa-trash-o text-danger"></i>
+                        </a>
                         <p class="lead">Produit(s)</p>
                         <blockquote>
                             <div class="col-sm-4">

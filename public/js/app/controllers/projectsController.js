@@ -62,6 +62,9 @@
             viewProject : function (projectId) {
                 App.views.appLayoutView.setBodyClass(['headerEdition', 'vueProjet']);
 
+                this.productsObject = new ProductsObject();
+                this.modulesObject = new ModulesObject();
+
                 var that = this;
                 this.projectId = parseInt(projectId);
 
@@ -144,15 +147,10 @@
                                     });
                                     App.views.projectWrapperLayoutView.getRegion('projectHeader').show(App.views.headerProjectView);
 
-                                    console.log('in', that.projectId);
-
                                     that.channel
                                         .request('getProject', that.projectId)
                                         .then(function(project){
-                                            console.log('toto', project);
                                             that.projectModel = (project.id) ? new ProjectModel(project) : new ProjectModel();
-
-                                            console.log('projectModel', that.projectModel);
 
                                             App.views.stepView = new CreateProjectView({
                                                 'customers' : that.customersCollection,

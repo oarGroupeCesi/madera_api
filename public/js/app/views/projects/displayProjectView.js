@@ -22,11 +22,13 @@ define(["backbone",
                     'click #deleteProject'          : 'deleteProject',
                     'click #editProject'            : 'redirectToEditProject',
                     'click #addProductsToProject'   : 'redirectToProductsAdding',
-                    'click #addModulesToProject'    : 'redirectToModulesAdding'
+                    'click #addModulesToProject'    : 'redirectToModulesAdding',
+                    'click .deleteProduct'          : 'deleteProduct'
                 },
 
                 initialize: function (options) {
                     this.channel = Radio.channel('Projects');
+                    this.ProductChannel = Radio.channel('Products');
 
                     BaseItemView.prototype.initialize.apply(this, arguments);
 
@@ -64,14 +66,44 @@ define(["backbone",
 
                 deleteProject : function (e) {
                     e.preventDefault();
+                    var that = this;
 
                     if(confirm("Voulez-vous réellement supprimer ce projet ?")) {
                         this.channel
                             .request('deleteProject', this.model)
-                            .then(function(response) {
-                                console.log('showSuccessMessage', response);
+                            .then(function(model, response) {
+                                that.showSuccessMessage(response);
+                                Backbone.history.navigate('home', {trigger:true});
                             });
                     }
+                },
+
+                deleteProduct : function (e) {
+                    e.preventDefault();
+                    var that = this,
+                        productId = $(e.currentTarget).data('product-id');
+
+                    if(productId && confirm("Voulez-vous réellement supprimer ce produit ?")) {
+                        this.ProductChannel
+                            .request('deleteProduct', this.model.get('products').findWhere({id:productId}))
+                            .then(function(model, response) {
+                                that.showSuccessMessage(response);
+                                that.render();
+                            });
+                    }
+                },
+
+                showSuccessMessage : function(successMessage) {
+                    var $form = this.$el.find('#message');
+
+                    $('html, body').animate({scrollTop : 0}, 500);
+
+                    $form.find('.alert').fadeIn(600, function() {
+                        $(this).addClass('alert-success')
+                        $(this).removeClass('alert-danger hide')
+                        $(this).html(successMessage);
+                    });
+
                 },
 
                 redirectToEditProject : function (e) {

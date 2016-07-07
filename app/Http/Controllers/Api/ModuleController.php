@@ -181,8 +181,9 @@ class ModuleController extends Controller
         if (!$module) {
             return response()->json('Le module n\'existe pas.', 404);
         }
+
         $module->delete();
 
-        return 'Le module a bien été supprimé.';
+        return response()->json('Le module a bien été supprimé.', 200);
     }
 }
