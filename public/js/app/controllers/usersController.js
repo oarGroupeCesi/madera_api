@@ -36,6 +36,11 @@ define(["backbone",
                 });
             },
 
+            logout : function () {
+                localStorage.clear();
+                Backbone.history.navigate('', {trigger:true});
+            },
+
             checkLogin: function () {
                 var token = localStorage.getItem('token');
 

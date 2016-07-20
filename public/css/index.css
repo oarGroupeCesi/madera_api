@@ -51,6 +51,10 @@ p.bg-info {
     transition: all 0.5s ease-in-out;
 }
 
+.btn-margin {
+    margin: 2px;
+}
+
 .btn-custom-light {
     background-color: #00B16A;
     border-color: #03A678;

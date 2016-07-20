@@ -61,7 +61,8 @@ define([
             this.initialized = false;
 
             App.router.processAppRoutes(App.controllers.usersController, {
-                "": "index"
+                ""          : "index",
+                "logout"    : "logout"
             });
 
             App.router.processAppRoutes(App.controllers.pagesController, {

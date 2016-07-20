@@ -73,6 +73,9 @@ define(["backbone",
                     if(searchValue && searchValue != "undefined") {
                         lastProjects = this.lastProjects.filter(function(project) {
                             return _.any(project.attributes, function(val, attr) {
+                                if(attr === 'id') {
+                                    return ~val.indexOf(searchValue);
+                                }
                                 if(attr === 'name') {
                                     return ~val.indexOf(searchValue);
                                 }
