@@ -19,18 +19,22 @@
 				<h3><small>Produits précédemment enregistrés : </small></h3>
 				{{#each data.products}}
 					<div class="well well-sm well-primary clearfix">
-						<div class="col-sm-11">
+						<div class="col-sm-10">
 							<b class="primary">{{name}}</b> — <small>créé le {{formated_date created_at}}</small>
 						</div>
-					    {{#if modules}}
-					    <div class="col-sm-1">
+					    <div class="col-sm-2">
 						    <a href="#" class="btn btn-neutre btn-labeled next" data-product-id="{{id}}">
 						    	<span class="badge badge-primary" data-toggle="tooltip" data-placement="top" title="Éditer les modules de ce produit">
 						    		<i class="fa fa-arrow-right"></i>
 						    	</span>
 						    </a>
+
+	                        <a href="#" class="btn btn-neutre btn-labeled deleteProduct" data-product-id="{{id}}">
+								<span class="badge badge-danger" data-toggle="tooltip" data-placement="top" title="Supprimer le produit">
+	                            	<i class="fa fa-trash-o"></i>
+	                            </span>
+	                        </a>
 					    </div>
-					    {{/if}}
 					</div>
 				{{/each}}
 			</div>

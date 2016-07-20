@@ -73,11 +73,10 @@ define(["backbone",
                     if(searchValue && searchValue != "undefined") {
                         lastProjects = this.lastProjects.filter(function(project) {
                             return _.any(project.attributes, function(val, attr) {
-                                if(attr === 'id') {
-                                    return ~val.indexOf(searchValue);
-                                }
-                                if(attr === 'name') {
-                                    return ~val.indexOf(searchValue);
+                                if(attr === 'id' && !isNaN(searchValue)) {
+                                    return ~val.toString().search(new RegExp(searchValue, "i"));
+                                } else if (attr === 'name') {
+                                    return ~val.search(new RegExp(searchValue, "i"));
                                 }
                             });
                         });

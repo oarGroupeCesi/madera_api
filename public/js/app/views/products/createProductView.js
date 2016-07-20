@@ -29,6 +29,7 @@ define(["backbone",
                 events : {
                     'change .templateRanges'    : 'showCollapsableTab',
                     'submit form'               : 'handleProductSave',
+                    'click .deleteProduct'      : 'deleteProduct',
                     'click .back'               : 'redirectToPreviousStep',
                     'click .next'               : 'redirectToNextStep'
                 },
@@ -137,6 +138,21 @@ define(["backbone",
                                     });
                             });
                         }
+                    }
+                },
+
+                deleteProduct : function (e) {
+                    e.preventDefault();
+                    var that = this,
+                        productId = $(e.currentTarget).data('product-id');
+
+                    if(productId && confirm("Voulez-vous réellement supprimer ce produit ?")) {
+                        this.channel
+                            .request('deleteProduct', this.model.get('products').findWhere({id:productId}))
+                            .then(function(model, response) {
+                                that.showSuccessMessage(response);
+                                that.render();
+                            });
                     }
                 },
 
