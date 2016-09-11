@@ -6,9 +6,9 @@ define(["backbone",
         "baseItemView",
         "hbs!/js/app/templates/header"],
     function (Backbone, Marionette, $, _, NavigationBehavior, BaseItemView, HeaderTemplate) {
-        
+
         "use strict";
-        
+
         var HeaderView = BaseItemView.extend({
             name: 'maderaHeader',
             template: HeaderTemplate,
@@ -21,10 +21,11 @@ define(["backbone",
 
             events : {
                 'click #nav-expander' : 'expandedNavbar',
-                'click #nav-close'    : 'closedNavbar'
+                'click #nav-close'    : 'closedNavbar',
+                'click .logout'       : 'redirectToLogout'
             },
 
-            initialize : function() {                                           
+            initialize : function() {
                 var that = this;
 
                 BaseItemView.prototype.initialize.apply(this, arguments);
@@ -49,11 +50,16 @@ define(["backbone",
                 $('body').toggleClass('nav-expanded');
             },
 
+            redirectToLogout : function (e) {
+                e.preventDefault();
+                Backbone.history.navigate('logout', {trigger:true});
+            },
+
             closedNavbar : function(e) {
                 e.preventDefault();
                 $('body').removeClass('nav-expanded');
             }
-            
+
         });
 
         return HeaderView;

@@ -3,13 +3,15 @@ define(["backbone",
         "jquery",
         "underscore",
         "baseLayoutView",
+        "views/elements_html/modal/modalLayoutView",
         "views/projects/lastProjectsView",
         "collections/projects",
-        "hbs!/js/app/templates/home"],
+        "hbs!/js/app/templates/home",
+        "hbs!/js/app/templates/help/homeHelp"],
         function (Backbone, Marionette, $, _,
-            BaseLayoutView, LastProjectsView,
+            BaseLayoutView, ModalLayoutView, LastProjectsView,
             ProjectsCollection,
-            HomeTemplate) {
+            HomeTemplate, HomeHelpTemplate) {
 
             "use strict";
 
@@ -20,7 +22,8 @@ define(["backbone",
                     'click #create_project' : 'navigateToCreateProjectView',
                     'change #search-devis'  : 'searchProject',
                     'keyup #search-devis'   : 'searchProject',
-                    'input #search-devis'   : 'searchProject'
+                    'input #search-devis'   : 'searchProject',
+                    'click .btn-info'       : 'showInfoModal'
                 },
 
                 regions : {
@@ -33,7 +36,7 @@ define(["backbone",
                     this.projects = (params.projects) ? params.projects : {};
                     this.lastProjects = this.projects;
                     this.finalProjects = this.getLastProjects();
-
+                    this.helpModal = null;
                     this.render();
                 },
 
@@ -45,6 +48,10 @@ define(["backbone",
 
                         this.showChildView('lastProjects', this.lastProjectsView);
                     }
+                },
+
+                onDestroy : function () {
+                    this.destroyModal();
                 },
 
                 searchProject : function (e) {
@@ -85,6 +92,28 @@ define(["backbone",
                     }
 
                     return new ProjectsCollection(lastProjects.slice(0, 6));
+                },
+
+                showInfoModal : function (e) {
+                    e.preventDefault();
+
+                    var that = this,
+                        options = {
+                            "title"                 : "Aide",
+                            "class"                 : "help",
+                            "body"                  : HomeHelpTemplate,
+                            "close"                 : true,
+                            "closeFooterButton"     : true
+                        };
+
+                    this.helpModal = new ModalLayoutView(options);
+                    this.helpModal.showModal();
+                },
+
+                destroyModal : function () {
+                    if (this.helpModal) {
+                        this.helpModal.closeModal();
+                    }
                 },
 
                 serializeData : function () {

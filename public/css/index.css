@@ -166,6 +166,10 @@ blockquote footer:before {
     content: '';
 }
 
+.btn-info.focus, .btn-info:focus {
+    outline: none;
+}
+
 /**
  * MODAL
  * -----------------------------------------------------------------------------
@@ -478,6 +482,11 @@ body.nav-expanded {
     margin: 0.1em 0.8em -0.1em 0;
     opacity: 1;
 }
+.main-menu>li.logout:not(:first-child):not(.active):hover,
+.main-menu>li.logout:not(:first-child):not(.active):hover>a {
+    background-color: #EF4836;
+    color: #fff;
+}
 
 /**
  * LOGIN
@@ -679,4 +688,68 @@ body.login header.nav {
 
 #savedProducts .well-primary > small {
     color: #00B16A;
+}
+
+
+/**
+ * FLOATING BTN
+ * -----------------------------------------------------------------------------
+ */
+.btn-floating, .dropdown-content, .collapsible, .side-nav {
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+}
+
+.btn-floating {
+    display: inline-block;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    width: 37px;
+    height: 37px;
+    line-height: 37px;
+    padding: 0;
+    background-color: #26a69a;
+    border-radius: 50%;
+    transition: .3s;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    z-index: 1;
+    will-change: opacity, transform;
+    transition: all .3s ease-out;
+}
+
+.btn-floating.btn-large {
+    width: 55.5px;
+    height: 55.5px;
+}
+
+.btn-floating i {
+    width: inherit;
+    display: inline-block;
+    text-align: center;
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 37px;
+}
+
+.btn-large i {
+    font-size: 1.6rem;
+}
+
+.btn-floating.btn-large i {
+    line-height: 55.5px;
 }
